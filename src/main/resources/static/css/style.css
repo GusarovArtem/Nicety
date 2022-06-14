@@ -1,42 +1,231 @@
-@charset "utf-8";
-* {
-    margin: 0;
-    padding: 0;
-    outline: none;
+.border {
+    border: 1px solid red;
+    padding: 10px;
+    background: #222;
+    color: #ffffff;
 }
 
-html {
-    height: 100%;
+.h2 {
+    font-size: 50px;
+    color: #ffffff;
+}
+
+.h2:before {
+    content: "";
+    background: transparent;
 }
 
 body {
+    /*Тело сайта*/
+    margin: 0 auto;
+}
+
+body h2 {
+    font-size: 35px;
+    margin-top: 20px;
+    margin-bottom: 125px;
+    text-transform: uppercase;
+    color: #808080;
+    padding-bottom: 5px;
+    display: inline-block;
+    position: relative;
+}
+
+body h1 {
+    font-size: 35px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #808080;
+    padding-bottom: 5px;
+    display: inline-block;
+    position: relative;
+    border-bottom: 2px solid maroon; /* Параметры линии под текстом */
+}
+
+body h2:before {
+    position: absolute;
+    display: block;
+    content: "";
+    height: 4px;
     width: 100%;
-    height: 100%;
+    background: #868686;
+    left: 0;
+    bottom: 0;
+}
+
+body h2 span {
+    color: #fc635e;
+}
+
+body header h2 {
+    font-size: 50px;
+    color: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #fc635e;
+    background: #ffcaca;
+    padding: 12px 28px;
+}
+
+body header h2:before {
+    content: "";
+    background: transparent;
+}
+
+body a.arrowDown {
+    font-size: 30px;
+    text-decoration: none;
+    color: #fc635e;
+    border: 1px solid #fc635e;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    background: #ffcaca;;
+}
+
+body a.arrowDown:hover {
+    background: #fc635e;
     color: #333;
-    background: #f7f7f7;
-    font-size: 1em;
-    font-family: "Seqoe UI", sans-serif;
-    line-height: 135%;
 }
 
-a {
-    color: #f58b8b;
+body a.btn {
+    color: #fc635e;
     text-decoration: none;
-    transition: all.6s ease;
-    -moz-transition: all.6s ease;
-    -webkit-transition: all.6s ease;
-    -ms-transition: all.6s ease;
+    font-size: 28px;
+    border: 2px solid #fc635e;
+    padding: 12px 28px;
+    border-radius: 8px;
+    background: #ffcaca;
 }
 
-a:hover {
-    color: #8b9ff5;
+body a.btn:hover {
+    background: #fc635e;
+    color: #333;
+}
+
+body .mainText {
+    text-align: center;
+}
+
+body .mainText p {
+    color: #ffffff;
+    font-size: 22px;
+}
+
+body header {
+    background: url('../images/background.png') no-repeat;
+    display: flex;
+    flex-direction: column;
+    min-height: 750px;
+    width: 100%;
+    max-width: 1400px;
+    justify-content: space-around;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+body header nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+body header nav>a {
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: bold;
     text-decoration: none;
-    transition: all.6s ease;
-    -moz-transition: all.6s ease;
-    -webkit-transition: all.6s ease;
-    -ms-transition: all.6s ease;
 }
 
-a:active {
-    color: #49d67f;
+body header nav>a img {
+    padding-right: 15px;
+    vertical-align: middle;
+    width: 65%;
+}
+
+body header nav .logo:hover img {
+    opacity: .7;
+}
+
+body header nav menu {
+    list-style: none;
+    text-transform: uppercase;
+    display: flex;
+}
+
+body header nav menu li {
+    padding-left: 15px;
+}
+
+body header nav menu li a  {
+    color: #ffffff;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+body header nav menu li a:hover {
+    color: #ffffff;
+    border-bottom: #fc635e solid 3px;
+    padding-bottom: 5px;
+}
+
+body .receive {
+    margin-top: 0;
+    text-align: center;
+    background: #ffffff;
+    padding: 30px 50px 10px 50px;
+    color:#868686;
+}
+
+body .receive p {
+    font-size: 25px;
+    margin-bottom: 50px;
+}
+
+body .icons {
+    display: flex;
+}
+
+body .icons h4 {
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+body .icons p {
+    font-size: 20px;
+}
+
+body .icons div {
+    padding: 15px;
+}
+
+/* Styles for Footer */
+
+footer {
+    border-top: 2px solid silver;
+    margin-top: 13px;
+    padding: 0.5% 0.5% 2.2%;
+}
+
+footer img {
+    width: 2.2%;
+    float: right;
+}
+
+#page-wrap:after {
+    content: "";
+    display: block;
+}
+
+footer, #page-wrap {
+    height: 10px;
+}
+
+#page-wrap {
+    min-height: 93%;
+    margin-bottom: -10px;
 }

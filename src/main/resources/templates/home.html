@@ -1,10 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+<div th:insert="parts/header :: header"></div>
+
 <body>
-$END$
+<header>
+    <nav>
+        <a href="/" class="logo">
+            <img src="/images/nicety-logo.png" alt=""/></a>
+        <menu>
+            <!-- Надо добавить страничку где можно посмотреть свои расписания           -->
+            <li>
+                <a href="#receive">About Us</a>
+            </li>
+            <li>
+                <a href="#portfolio">Portfolio</a>
+            </li>
+            <li>
+                <a href="/main">Main</a>
+            </li>
+            <li>
+                <a href="#our_team">Contacts</a>
+            </li>
+        </menu>
+    </nav>
+    <div class="mainText">
+        <h2>
+            <span>Plan </span> & <span>Do</span> more
+        </h2>
+        <br>
+        <a href="/main" class="btn">Make your schedule</a>
+    </div>
+    <a href="#receive" class="arrowDown">&darr;</a>
+</header>
+<section class="receive" id="receive">
+    <h1>What can
+        <span>you receive?</span>
+    </h1>
+    <p>
+        Start planning and spreading your time evenly. Become more successful by doing more than you did before!
+    </p>
+    <div class="icons">
+        <div>
+            <img src="/images/checkmark.png" alt="">
+            <h4>Do more</h4>
+            <p>
+                Write down tasks for the day and the whole week. Plan your life and make it better.
+            </p>
+        </div>
+        <div>
+            <img src="/images/bookmark-ribbon.png" alt="">
+            <h4>Be in Time</h4>
+            <p>Add meetings to your schedule. Stop being late and forget about important events.</p>
+        </div>
+        <div>
+            <img src="/images/bookmark-ribbon%203.png" alt="">
+            <h4>Customize your schedule</h4>
+            <p>Choose a ready-made design of the schedule to your taste. We have prepared for you excellent schedule
+                templates for your entire fruitful week.</p>
+        </div>
+        <div>
+            <img src="/images/print-pdf.png" alt="">
+            <h4>Save & Print</h4>
+            <p>You can download your schedule in pdf format and print it if you wish.</p>
+        </div>
+    </div>
+    <a href="#expand" class="arrowDown">&darr;</a>
+</section>
+
+<div th:insert="parts/footer :: footer"></div>
 </body>
 </html>
