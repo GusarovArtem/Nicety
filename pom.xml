@@ -64,6 +64,14 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
         <!-- javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
