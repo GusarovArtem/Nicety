@@ -9,13 +9,13 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("title", "Home page");
+//        model.addAttribute("title", "Home page");
         return "home";
     }
 
     @GetMapping("/main")
     public String main(Model model) {
-        model.addAttribute("title", "Main page");
+//        model.addAttribute("title", "Main page");
         return "main";
     }
 }
