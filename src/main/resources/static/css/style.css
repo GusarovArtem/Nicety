@@ -203,6 +203,21 @@ body .icons div {
     padding: 15px;
 }
 
+/* Styles for Shedule */
+
+table {
+    width: 45%;
+    height: 445px;
+    background: white;
+    font-size: 15px;
+    color: white;
+    border-spacing: 1px;
+}
+td, th {
+    background: #ffa6a6;
+    padding: 5px;
+}
+
 /* Styles for Footer */
 
 footer {
