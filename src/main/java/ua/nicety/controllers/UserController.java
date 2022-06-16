@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("users", userDAO.showAll());
-        return "users/index";
+        return "users/allUsers";
     }
 
 //  Show user

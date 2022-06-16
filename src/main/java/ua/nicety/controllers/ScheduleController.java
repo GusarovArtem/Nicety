@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.nicety.DAO.ScheduleDAO;
 import ua.nicety.model.Schedule;
+import ua.nicety.model.User;
 
 import javax.validation.Valid;
 
@@ -21,14 +22,23 @@ public class ScheduleController {
         this.scheduleDAO = scheduleDAO;
     }
 
+
 //  Show all user schedules
+    @GetMapping()
+    public String userSchedules(User user, Model model) {
+        model.addAttribute("schedules", scheduleDAO.allUserSchedules(user.getId()));
+
+        return "schedules/userSchedules";
+    }
+
+  //  Show user schedule
     @GetMapping("/{id}")
-    public String userSchedules(
+    public String userSchedule(
             @PathVariable("id") Schedule schedule,
             Model model) {
-        model.addAttribute("schedules", scheduleDAO.allUserSchedules(schedule.getUserId()));
+        model.addAttribute("schedules", scheduleDAO.show(schedule.getId()));
 
-        return "schedules/show";
+        return "schedules/userSchedule";
     }
 
 //  Create new Schedule
