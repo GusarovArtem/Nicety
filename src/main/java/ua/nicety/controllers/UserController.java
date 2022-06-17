@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.DAO.UserDAO;
+import ua.nicety.dao.UserDAO;
 import ua.nicety.model.User;
 
 import javax.validation.Valid;

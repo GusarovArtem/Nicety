@@ -1,6 +1,5 @@
-package ua.nicety.DAO;
+package ua.nicety.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class UserDAO {
     }
 
     public User show(Long id) {
-        return jdbcTemplate.query("SELECT * FROM usr WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(User.class))
+        return jdbcTemplate.query("SELECT * FROM usr WHERE id=?", new BeanPropertyRowMapper<>(User.class), id)
                 .stream().findAny().orElse(null);
     }
 

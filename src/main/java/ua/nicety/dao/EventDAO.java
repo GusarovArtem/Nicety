@@ -1,12 +1,10 @@
-package ua.nicety.DAO;
+package ua.nicety.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ua.nicety.model.Event;
 import ua.nicety.model.Schedule;
-import ua.nicety.model.User;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class EventDAO {
     }
 
     public Schedule show(Long id) {
-        return jdbcTemplate.query("SELECT * FROM event WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Schedule.class))
+        return jdbcTemplate.query("SELECT * FROM event WHERE id=?", new BeanPropertyRowMapper<>(Schedule.class), id)
                 .stream().findAny().orElse(null);
     }
 
