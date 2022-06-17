@@ -1,12 +1,12 @@
-package ua.nicety.http.controllers;
+package ua.nicety.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.database.dao.EventDAO;
-import ua.nicety.database.model.Event;
+import ua.nicety.dao.EventDAO;
+import ua.nicety.model.Event;
 
 import javax.validation.Valid;
 
@@ -21,17 +21,16 @@ public class EventController {
         this.eventDAO = eventDAO;
     }
 
-    //  Show all schedule events
+//  Show schedule event
     @GetMapping("/{id}")
-    public String scheduleEvents(
+    public String scheduleEvent(
             @PathVariable("id") Event event,
-            Model model) {
-        model.addAttribute("user", eventDAO.allScheduleEvents(event.getScheduleId()));
+            Model model
+    ) {
+        model.addAttribute("user", eventDAO.show(event.getId()));
 
-        return "events/scheduleEvents";
+        return "events/scheduleEvent";
     }
-
-
 
 
     //  Create new Schedule
