@@ -1,12 +1,12 @@
-package ua.nicety.controllers;
+package ua.nicety.http.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.dao.EventDAO;
-import ua.nicety.model.Event;
+import ua.nicety.database.dao.EventDAO;
+import ua.nicety.database.model.Event;
 
 import javax.validation.Valid;
 
