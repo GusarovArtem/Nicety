@@ -21,21 +21,12 @@ public class EventController {
         this.eventDAO = eventDAO;
     }
 
-    //  Show all schedule events
-    @GetMapping("/{id}")
-    public String scheduleEvents(
-            @PathVariable("id") Event event,
-            Model model) {
-        model.addAttribute("user", eventDAO.allScheduleEvents(event.getScheduleId()));
-
-        return "events/scheduleEvents";
-    }
-
-    //  Show schedule event
+//  Show schedule event
     @GetMapping("/{id}")
     public String scheduleEvent(
             @PathVariable("id") Event event,
-            Model model) {
+            Model model
+    ) {
         model.addAttribute("user", eventDAO.show(event.getId()));
 
         return "events/scheduleEvent";
