@@ -1,4 +1,4 @@
-package ua.nicety.model;
+package ua.nicety.database.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,9 +1,9 @@
-package ua.nicety.dao;
+package ua.nicety.database.dao;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ua.nicety.model.Schedule;
+import ua.nicety.database.model.Schedule;
 
 import java.util.List;
 

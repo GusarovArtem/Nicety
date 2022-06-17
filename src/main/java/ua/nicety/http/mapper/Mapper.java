@@ -1,4 +1,4 @@
-package ua.nicety.mapper;
+package ua.nicety.http.mapper;
 
 public interface Mapper<F, T> {
 

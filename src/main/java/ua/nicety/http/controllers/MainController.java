@@ -1,4 +1,4 @@
-package ua.nicety.controllers;
+package ua.nicety.http.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,4 +16,10 @@ public class MainController {
     public String main(Model model) {
         return "main";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "users/login";
+    }
+
 }

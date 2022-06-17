@@ -1,24 +1,35 @@
-package ua.nicety.mapper;
+package ua.nicety.http.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import ua.nicety.dto.UserCreateDto;
-import ua.nicety.model.Role;
-import ua.nicety.model.User;
+import ua.nicety.http.dto.UserCreateEditDto;
+import ua.nicety.database.model.Role;
+import ua.nicety.database.model.User;
 
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserCreateEditMapper implements Mapper<UserCreateDto, User> {
+public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
 
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User map(UserCreateDto object) {
+    public User map(UserCreateEditDto object) {
         User user = new User();
+        copy(object, user);
+
+        return user;
+    }
+    public User map(UserCreateEditDto fromObject, User toObject) {
+        copy(fromObject, toObject);
+        return toObject;
+    }
+
+
+    private void copy(UserCreateEditDto object, User user) {
         user.setUsername(object.getUsername());
         user.setEmail(object.getEmail());
         user.setRole(Role.USER);
@@ -27,8 +38,8 @@ public class UserCreateEditMapper implements Mapper<UserCreateDto, User> {
                 .filter(StringUtils::hasText)
                 .map(passwordEncoder::encode)
                 .ifPresent(user::setPassword);
-
-        return user;
     }
+
+
 
 }

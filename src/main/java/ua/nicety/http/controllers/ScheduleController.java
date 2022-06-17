@@ -1,13 +1,13 @@
-package ua.nicety.controllers;
+package ua.nicety.http.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.dao.ScheduleDAO;
-import ua.nicety.model.Schedule;
-import ua.nicety.model.User;
+import ua.nicety.database.dao.ScheduleDAO;
+import ua.nicety.database.model.Schedule;
+import ua.nicety.database.model.User;
 
 import javax.validation.Valid;
 

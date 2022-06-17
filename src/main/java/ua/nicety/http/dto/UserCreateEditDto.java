@@ -1,9 +1,9 @@
-package ua.nicety.dto;
+package ua.nicety.http.dto;
 
 import lombok.Value;
 
 @Value
-public class UserCreateDto {
+public class UserCreateEditDto {
 
     String username;
     String rawPassword;

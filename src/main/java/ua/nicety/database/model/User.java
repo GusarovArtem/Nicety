@@ -1,4 +1,4 @@
-package ua.nicety.model;
+package ua.nicety.database.model;
 
 
 import lombok.AllArgsConstructor;
