@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-<div th:insert="parts/header :: header"></div>
+<head>
+    <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+    <div th:insert="parts/header :: header"></div>
+    <title>Nicety | All Users</title>
+</head>
+
+<!--Show all users-->
 
 <body>
 
-<!--Show all users-->
+<!--/*@thymesVar id="users" type="ua.nicety.database.model.User"*/-->
+<div th:each="user : ${users}">
+    <a th:href="@{/users/{id}(id=${user.getId()})}"
+       th:text="${user.getUsername() + ', ' + user.getRole()}">user</a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="/users/new">Create new user</a>
 
 <div th:insert="parts/footer :: footer"></div>
 </body>
