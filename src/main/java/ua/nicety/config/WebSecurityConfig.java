@@ -14,16 +14,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/login", "/logout", "/users/registration", "/static/**").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/", "/users/login", "/users/logout", "/users/registration", "/static/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login
-                        .loginPage("/login"))
+                        .loginPage("/users/login"))
                 .rememberMe()
                 .and()
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutUrl("/users/logout")
+                        .logoutSuccessUrl("/users/login")
                         .deleteCookies("JSESSIONID"));
     }
 
