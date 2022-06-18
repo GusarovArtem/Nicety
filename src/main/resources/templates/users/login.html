@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-<div th:insert="parts/header :: header"></div>
-<body>
-<form th:action="@{/login}" method="post">
+<head>
+    <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Login</title>
+</head>
+
+<!-- Login -->
+
+<body class="text-center">
+
+<main class="form-signin w-25 m-auto">
+
+<form th:action="@{/users/login}" method="post">
+
+    <img class="mb-4 mt-15" src="/static/images/nicety-logo.png" alt="" width="200" height="180">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+        <input name="username" type="text" class="form-control" id="floatingInput" placeholder="Ivanov Ivan">
+        <label for="floatingInput">Username</label>
+    </div>
+    <div class="form-floating">
+        <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3 mt-2">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+
     <div style="color: red" th:if="${param.error}">
         Bad credentials
+        <div><br/></div>
     </div>
-    <label for="username">Username:
-        <input id="username" type="text" name="username">
-    </label><br>
-    <label for="password">Password:
-        <input id="password" type="password" name="password">
-    </label><br>
-    <button type="submit">Login</button>
+
+    <button class="w-25 btn btn-lg btn-primary " type="submit">Sign in</button>
+    <p class="mt-4 mb-3 text-muted">© 2022</p>
 </form>
-<form action="/users/registration">
-    <button type="submit">Registration</button>
-</form>
-<div th:insert="parts/footer :: footer"></div>
+
+</main>
+
 </body>
 </html>
+
+
