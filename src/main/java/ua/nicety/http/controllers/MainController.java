@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home() {
         return "home";
     }
 
     @GetMapping("/main")
-    public String main(Model model) {
+    public String main() {
         return "main";
     }
-
 }

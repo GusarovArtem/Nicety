@@ -39,7 +39,13 @@ public class UserController {
         return "users/show";
     }
 
-//  Create new user
+//  User login
+    @GetMapping("/login")
+    public String login() {
+        return "users/login";
+    }
+
+//  User registration
     @GetMapping("/registration")
     public String registration(@ModelAttribute("user") UserCreateEditDto user) {
         return "users/registration";
@@ -55,7 +61,7 @@ public class UserController {
             return "redirect:/users/registration";
         }
         userService.create(user);
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
 
 
