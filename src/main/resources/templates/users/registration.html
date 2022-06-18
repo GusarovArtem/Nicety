@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-<div th:insert="parts/header :: header"></div>
+<head>
+    <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Registration</title>
+</head>
 
-<body>
+<!-- Registration -->
+
+<body class="text-center">
+<main class="form-registration w-25 m-auto">
+    <!--/*@thymesVar id="user" type="ua.nicety.database.model.User"*/-->
     <form th:action="@{/users/registration}" method="post" th:object="${user}">
-        <label for="username">Username:
-            <input id="username" type="text" name="username" th:value="*{username}">
-        </label><br>
-        <label for="rawPassword">Password:
-            <input id="rawPassword" type="password" name="rawPassword">
-        </label><br>
-        <label for="email">Email:
-            <input id="email" type="text" name="email" th:value="*{email}">
-        </label><br>
-        <button type="submit">Register</button>
+
+        <img class="mb-4 mt-15" src="/static/images/nicety-logo.png" alt="" width="200" height="180">
+        <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+        <div class="form-floating">
+            <input name="username" th:value="*{username}" type="text" class="form-control" id="floatingInput" placeholder="Ivanov Ivan">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            <input name="email" th:value="*{email}" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+            <label for="floatingEmail">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input name="rawPassword" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <div th:if="${errors}">
+            <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+        </div>
+
+        <button class="w-25 btn btn-lg btn-primary mt-2" type="submit">Register</button>
+        <p class="mt-4 mb-3 text-muted">© 2022</p>
     </form>
-    <div th:if="${errors}">
-        <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
-    </div>
-    <div th:insert="parts/footer :: footer"></div>
+
+</main>
 </body>
 </html>
