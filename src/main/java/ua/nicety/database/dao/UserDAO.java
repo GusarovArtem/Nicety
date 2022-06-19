@@ -39,8 +39,8 @@ public class UserDAO {
         jdbcTemplate.update("DELETE FROM usr WHERE id=?", id);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return jdbcTemplate.query("SELECT * FROM usr WHERE username=?", new BeanPropertyRowMapper<>(User.class), username)
+    public Optional<User> findByEmail(String email) {
+        return jdbcTemplate.query("SELECT * FROM usr WHERE email=?", new BeanPropertyRowMapper<>(User.class), email)
                 .stream().findAny();
     }
 }

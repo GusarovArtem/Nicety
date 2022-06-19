@@ -1,17 +1,19 @@
 package ua.nicety.database.dao;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ua.nicety.database.model.Event;
 import ua.nicety.database.model.Schedule;
 
 import java.util.List;
 
-@Component
+@RequiredArgsConstructor
+@Repository
 public class EventDAO {
 
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public List<Schedule> allScheduleEvents(Long scheduleId) {
         return jdbcTemplate.query("SELECT * FROM event WHERE schedule_id=?", new BeanPropertyRowMapper<>(Schedule.class), scheduleId);

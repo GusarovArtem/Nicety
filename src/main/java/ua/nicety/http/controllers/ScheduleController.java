@@ -1,6 +1,7 @@
 package ua.nicety.http.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,18 +9,23 @@ import org.springframework.web.bind.annotation.*;
 import ua.nicety.database.dao.ScheduleDAO;
 import ua.nicety.database.model.Schedule;
 import ua.nicety.database.model.User;
+import ua.nicety.service.MailService;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/sсhedules")
+@RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleDAO scheduleDAO;
+    private final MailService mailService;
 
-    @Autowired
-    public ScheduleController(ScheduleDAO scheduleDAO) {
-        this.scheduleDAO = scheduleDAO;
+    @GetMapping(value = "/mail")
+    public String sendPdfViaEmail(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+
+        mailService.sendEmail(user.getUsername());
+        return "redirect:/main";
     }
 
 

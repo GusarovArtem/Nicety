@@ -4,3 +4,14 @@ spring:
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
+
+mail:
+  smtp:
+    host: smtp.mail.yahoo.com
+    port: 587
+    starttls:
+      enable: true
+    auth: true
+  fromEmail: nicety_main@yahoo.com
+  appPassword: sfzycofbckaebyhn
+
