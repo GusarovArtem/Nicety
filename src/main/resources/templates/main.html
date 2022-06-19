@@ -60,7 +60,10 @@
             <div class="text-end">
                 <button type="button" href="/events/new" style="margin-right: 5px" class="btn btn-primary">Create Event</button>
                 <button type="button" href="/schedules/new" style="margin-right: 5px" class="btn btn-primary">New Schedule</button>
-                <button type="button" href="/schedules/getSchedule" style="margin-right: 5px" class="btn btn-primary">Get in PDF</button>
+                <button type="button" href="/schedules/getSchedule" style="margin-right: 5px" class="btn btn-primary">Get in PDF
+                <form th:action="@{/schedules/mail}"  method="post">
+                    <button type="submit" style="margin-right: 5px" class="btn btn-primary">Send PDF to email</button>
+                </form>
                 <button type="button" class="btn btn-primary">Log out</button>
             </div>
         </div>

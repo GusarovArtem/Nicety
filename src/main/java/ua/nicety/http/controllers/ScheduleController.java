@@ -14,14 +14,14 @@ import ua.nicety.service.MailService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/sсhedules")
+@RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleDAO scheduleDAO;
     private final MailService mailService;
 
-    @GetMapping(value = "/mail")
+    @PostMapping(value = "/mail")
     public String sendPdfViaEmail(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
 
         mailService.sendEmail(user.getUsername());
