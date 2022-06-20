@@ -3,7 +3,6 @@ package ua.nicety.database.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ua.nicety.database.model.User;
 
@@ -37,6 +36,11 @@ public class UserDAO {
 
     public void delete(Long id) {
         jdbcTemplate.update("DELETE FROM usr WHERE id=?", id);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return jdbcTemplate.query("SELECT * FROM usr WHERE username=?", new BeanPropertyRowMapper<>(User.class), username)
+                .stream().findAny();
     }
 
     public Optional<User> findByEmail(String email) {

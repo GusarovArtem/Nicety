@@ -63,14 +63,26 @@ public class UserService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDAO.findByEmail(username)
-                .map(user -> new org.springframework.security.core.userdetails.User(
-                        user.getEmail(),
-                        user.getPassword(),
-                        Collections.singleton(user.getRole())
-                ))
-                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        Optional<User> userFindByEmail = userDAO.findByEmail(username);
+        Optional<User> userFindByUsername = userDAO.findByUsername(username);
+
+        if(userFindByEmail.isPresent()) {
+            return new org.springframework.security.core.userdetails.User(
+                    userFindByEmail.get().getUsername(),
+                    userFindByEmail.get().getPassword(),
+                    Collections.singleton(userFindByEmail.get().getRole()));
+        }
+
+        if(userFindByUsername.isPresent()) {
+            return new org.springframework.security.core.userdetails.User(
+                    userFindByUsername.get().getUsername(),
+                    userFindByUsername.get().getPassword(),
+                    Collections.singleton(userFindByUsername.get().getRole()));
+        }
+
+        throw new UsernameNotFoundException("Failed to retrieve user");
     }
 }
 
