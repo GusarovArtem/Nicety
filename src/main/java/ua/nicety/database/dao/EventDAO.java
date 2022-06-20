@@ -30,7 +30,7 @@ public class EventDAO {
     }
 
     public void update(Long id, Event editedEvent) {
-        jdbcTemplate.update("UPDATE event SET color=?, day=?, description=?, name=?, smiles?, time=? WHERE id=?",
+        jdbcTemplate.update("UPDATE event SET color=?, day=?, description=?, name=?, smiles=?, time=? WHERE id=?",
                 editedEvent.getColor(), editedEvent.getDay(), editedEvent.getDescription(), editedEvent.getName(),
                 editedEvent.getSmiles(), editedEvent.getTime(), id);
     }
