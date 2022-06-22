@@ -1,9 +1,30 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5444/nicety
-    username: admin
-    password: admin
+    url: jdbc:postgresql://localhost:5432/nicety
+    username: artem
+    password: "your password"
     driver-class-name: org.postgresql.Driver
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      connection:
+        characterEncoding: utf-8
+        CharSet: utf-8
+        useUnicode: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 394442828587-rg4pber3p0ra0uiemsj5ouj57rnbau5i.apps.googleusercontent.com
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
 
 mail:
   host: smtp.mail.yahoo.com
@@ -12,4 +33,11 @@ mail:
   auth: true
   fromEmail: nicety_main@yahoo.com
   appPassword: sfzycofbckaebyhn
+
+app:
+  tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+  tokenExpirationMsec: 864000000
+  authorizedRedirectUris:
+    - http://localhost:8080
+
 
