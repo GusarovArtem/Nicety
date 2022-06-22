@@ -1,10 +1,14 @@
 package ua.nicety.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import ua.nicety.http.dto.UserCreateEditDto;
 
-public interface UserService {
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+public interface UserService extends UserDetailsService, OAuth2UserService<OidcUserRequest, OidcUser> {
+    void create(UserCreateEditDto userDto);
+    boolean update(Long id, UserCreateEditDto userDto);
+    boolean delete(Long id);
 
-    UserDetails loadUserById(Long id);
 }

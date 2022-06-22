@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.database.repository.ScheduleRepository;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
+import ua.nicety.database.repository.ScheduleRepository;
 import ua.nicety.service.MailService;
 
 import javax.validation.Valid;
@@ -23,7 +23,6 @@ public class ScheduleController {
 
     @PostMapping(value = "/mail")
     public String sendPdfViaEmail(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
-
         mailService.sendEmail(user.getUsername());
         return "redirect:/main";
     }
@@ -32,7 +31,7 @@ public class ScheduleController {
 //  Show all user schedules
     @GetMapping()
     public String userSchedules(User user, Model model) {
-        model.addAttribute("schedules", scheduleRepository.findAllByUserId(user.getId()));
+        model.addAttribute("schedules", scheduleRepository.findAllByAuthor(user));
 
         return "schedules/userSchedules";
     }

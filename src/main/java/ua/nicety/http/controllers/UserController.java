@@ -39,11 +39,6 @@ public class UserController {
         return "users/show";
     }
 
-//  User login
-    @GetMapping("/login")
-    public String login() {
-        return "users/login";
-    }
 
 //  User registration
     @GetMapping("/registration")

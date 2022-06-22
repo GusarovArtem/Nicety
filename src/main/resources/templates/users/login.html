@@ -12,7 +12,7 @@
 
 <main class="form-signin w-25 m-auto">
 
-<form th:action="@{/users/login}" method="post">
+<form th:action="@{/login}" method="post">
 
     <img class="mb-4 mt-15" src="/static/images/nicety-logo.png" alt="" width="200" height="180">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
@@ -27,7 +27,8 @@
     </div>
 
     <div>
-        <a class="link-primary" href="/users/login/google">Sign in with Google</a>
+        <a class="link-primary" href="/oauth2/authorization/google">Sign in with Google</a>
+        <a class="link-primary" href="/users/registration">Registration</a>
     </div>
 
     <div class="checkbox mb-3 mt-2">
