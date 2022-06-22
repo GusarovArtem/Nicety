@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.database.dao.ScheduleDAO;
-import ua.nicety.database.model.Schedule;
-import ua.nicety.database.model.User;
+import ua.nicety.database.repository.ScheduleRepository;
+import ua.nicety.database.entity.Schedule;
+import ua.nicety.database.entity.User;
 import ua.nicety.service.MailService;
 
 import javax.validation.Valid;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleDAO scheduleDAO;
+    private final ScheduleRepository scheduleRepository;
     private final MailService mailService;
 
     @PostMapping(value = "/mail")
@@ -32,7 +32,7 @@ public class ScheduleController {
 //  Show all user schedules
     @GetMapping()
     public String userSchedules(User user, Model model) {
-        model.addAttribute("schedules", scheduleDAO.allUserSchedules(user.getId()));
+        model.addAttribute("schedules", scheduleRepository.findAllByUserId(user.getId()));
 
         return "schedules/userSchedules";
     }
@@ -42,7 +42,7 @@ public class ScheduleController {
     public String userSchedule(
             @PathVariable("id") Schedule schedule,
             Model model) {
-        model.addAttribute("schedules", scheduleDAO.show(schedule.getId()));
+        model.addAttribute("schedules", scheduleRepository.findById(schedule.getId()));
 
         return "schedules/userSchedule";
     }
@@ -61,7 +61,7 @@ public class ScheduleController {
         if (bindingResult.hasErrors())
             return "schedules/new";
 
-        scheduleDAO.save(schedule);
+        scheduleRepository.save(schedule);
 
         return "redirect:/schedules";
     }
@@ -69,7 +69,7 @@ public class ScheduleController {
 //  Edit & update schedule
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("schedule", scheduleDAO.show(id));
+        model.addAttribute("schedule", scheduleRepository.findById(id));
 
         return "schedules/edit";
     }
@@ -81,7 +81,7 @@ public class ScheduleController {
         if (bindingResult.hasErrors())
             return "schedules/edit";
 
-        scheduleDAO.update(id, schedule);
+//        scheduleRepository.update(id, schedule);
 
         return "redirect:/schedules";
     }
@@ -89,7 +89,7 @@ public class ScheduleController {
 //  Delete schedule
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
-        scheduleDAO.delete(id);
+        scheduleRepository.deleteById(id);
         return "redirect:/schedules";
     }
 }

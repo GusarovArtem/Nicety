@@ -1,4 +1,4 @@
-package ua.nicety.config;
+package ua.nicety.config.mail;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
