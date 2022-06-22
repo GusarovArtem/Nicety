@@ -22,6 +22,7 @@ import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -103,15 +104,17 @@ public class UserServiceImpl implements UserService {
                         : method.invoke(oidcUser, args));
     }
 
-    private UserDetails getUserDetails(OidcUserRequest userRequest, String username) {
-        return userRepository.findByUsername(username)
-                .map(user -> new org.springframework.security.core.userdetails.User(username, user.getPassword(), Collections.singleton(user.getRole())))
+    private UserDetails getUserDetails(OidcUserRequest userRequest, String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> new org.springframework.security.core.userdetails.User(email, user.getPassword(), Collections.singleton(user.getRole())))
                 .orElseGet(() -> {
                     String firstname = userRequest.getIdToken().getClaim("given_name");
                     Role role = Role.USER;
+                    String password = UUID.randomUUID().toString();
                     User user = User.builder()
                             .username(firstname)
-                            .email(username)
+                            .email(email)
+                            .password(password)
                             .role(role)
                             .build();
 

@@ -2,6 +2,7 @@ package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ public class ScheduleController {
     private final MailService mailService;
 
     @PostMapping(value = "/mail")
-    public String sendPdfViaEmail(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public String sendPdfViaEmail(@AuthenticationPrincipal UserDetails user) {
         mailService.sendEmail(user.getUsername());
         return "redirect:/main";
     }
