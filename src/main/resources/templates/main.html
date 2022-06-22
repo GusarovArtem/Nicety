@@ -60,7 +60,6 @@
             <div class="text-end">
                 <button type="button" href="/events/new" style="margin-right: 5px" class="btn btn-primary">Create Event</button>
                 <button type="button" href="/schedules/new" style="margin-right: 5px" class="btn btn-primary">New Schedule</button>
-                <button type="button" href="/schedules/getSchedule" style="margin-right: 5px" class="btn btn-primary">Get in PDF</button>
                 <form th:action="@{/schedules/mail}"  method="post">
                     <button type="submit" style="margin-right: 5px" class="btn btn-primary">Send PDF to email</button>
                 </form>
@@ -74,58 +73,71 @@
 </header>
 
 <main class="text-center">
-<table style="margin: 25px">
-    <tr>
-        <th>Day</th>
-        <th>Name</th>
-        <th>Time</th>
-        <th>🎯️</th>
-    </tr>
-    <tr>
-        <th>Monday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Tuesday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Wednesday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Thursday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Friday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Saturday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
 
-    <tr>
-        <th>Sunday</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+    <div style="align:center">
+        <h1>Manage yourself 🤟🏼</h1>
+        <br>
+        <table class="schedule">
+            <thead>
+            <tr>
+                <th>Day</th>
+                <th>Name</th>
+                <th>Time</th>
+                <th>🎯</th>
+            </tr>
+            </thead>
+            <tbody>
 
-</table>
+            <tr th:each="event : ${events}">
+                <th th:text="${event.day}"></th>
+                <th th:text="${event.name}"></th>
+
+            <tr>
+                <th>Monday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Tuesday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Wednesday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Thursday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Friday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Saturday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <th>Sunday</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 
 <div th:insert="parts/footer :: footer"></div>

@@ -5,8 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ua.nicety.http.dto.UserCreateEditDto;
-import ua.nicety.database.model.Role;
-import ua.nicety.database.model.User;
+import ua.nicety.database.entity.Role;
+import ua.nicety.database.entity.User;
 
 import java.util.Optional;
 

@@ -10,7 +10,7 @@
 
 <body class="text-center">
 <main class="form-registration w-25 m-auto">
-    <!--/*@thymesVar id="user" type="ua.nicety.database.model.User"*/-->
+    <!--/*@thymesVar id="user" type="ua.nicety.database.entity.User"*/-->
     <form th:action="@{/users/registration}" method="post" th:object="${user}">
 
         <img class="mb-4 mt-15" src="/static/images/nicety-logo.png" alt="" width="200" height="180">

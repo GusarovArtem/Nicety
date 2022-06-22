@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.nicety.database.dao.EventDAO;
-import ua.nicety.database.model.Event;
+import ua.nicety.database.repository.EventRepository;
+import ua.nicety.database.entity.Event;
 
 import javax.validation.Valid;
 
@@ -14,11 +14,11 @@ import javax.validation.Valid;
 @RequestMapping("/events")
 public class EventController {
 
-    private final EventDAO eventDAO;
+    private final EventRepository eventRepository;
 
     @Autowired
-    public EventController(EventDAO eventDAO) {
-        this.eventDAO = eventDAO;
+    public EventController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
 //  Show schedule event
@@ -27,13 +27,13 @@ public class EventController {
             @PathVariable("id") Event event,
             Model model
     ) {
-        model.addAttribute("user", eventDAO.show(event.getId()));
+        model.addAttribute("user", eventRepository.findById(event.getId()));
 
         return "events/scheduleEvent";
     }
 
 
-    //  Create new Schedule
+    //  Create new Event
     @GetMapping("/new")
     public String newEvent(Model model, Event event) {
         model.addAttribute("event", event);
@@ -47,14 +47,14 @@ public class EventController {
         if (bindingResult.hasErrors())
             return "events/new";
 
-        eventDAO.save(event);
+        eventRepository.save(event);
         return "redirect:/events";
     }
 
-    //  Edit & update schedule
+    //  Edit & update event
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("event", eventDAO.show(id));
+        model.addAttribute("event", eventRepository.findById(id));
         return "event/edit";
     }
 
@@ -65,14 +65,14 @@ public class EventController {
         if (bindingResult.hasErrors())
             return "events/edit";
 
-        eventDAO.update(id, event);
+//        eventRepository.update(id, event);
         return "redirect:/events";
     }
 
-    //  Delete schedule
+    //  Delete event
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
-        eventDAO.delete(id);
+        eventRepository.deleteById(id);
         return "redirect:/events";
     }
 }

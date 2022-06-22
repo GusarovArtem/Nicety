@@ -10,9 +10,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.nicety.database.dao.UserDAO;
+import ua.nicety.database.repository.UserRepository;
 import ua.nicety.http.dto.UserCreateEditDto;
-import ua.nicety.service.UserService;
+import ua.nicety.service.UserServiceImpl;
 
 import javax.validation.Valid;
 
@@ -21,21 +21,21 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserDAO userDAO;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final UserServiceImpl userService;
 
 
 //  Show all users
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userDAO.showAll());
+        model.addAttribute("users", userRepository.findAll());
         return "users/allUsers";
     }
 
 //  Show user
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userDAO.findById(id));
+        model.addAttribute("user", userRepository.findById(id));
         return "users/show";
     }
 
@@ -69,7 +69,7 @@ public class UserController {
 //  Edit & update user
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userDAO.findById(id));
+        model.addAttribute("user", userRepository.findById(id));
         return "users/edit";
     }
 

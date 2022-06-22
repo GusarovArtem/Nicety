@@ -10,7 +10,7 @@
 
 <body>
 
-<!--/*@thymesVar id="user" type="ua.nicety.database.model.User"*/-->
+<!--/*@thymesVar id="user" type="ua.nicety.database.entity.User"*/-->
 <form th:method="POST" th:action="@{/users}" th:object="${user}">
     <label for="username">Enter username: </label>
     <input type="text" th:field="*{username}" id="username"/>
