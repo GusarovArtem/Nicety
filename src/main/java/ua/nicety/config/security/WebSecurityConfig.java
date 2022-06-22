@@ -14,19 +14,19 @@ import ua.nicety.service.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
-    private String loginMatcher = "/login";
+    private final String loginMatcher = "/login";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/oauth2/**", loginMatcher, "/logout", "/users/registration", "/static/**").permitAll()
+                .antMatchers( "/", "/oauth2/**", loginMatcher, "/logout", "/users/registration", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login
                         .loginPage(loginMatcher)
-                        .defaultSuccessUrl("/main"))
+                        .defaultSuccessUrl("/"))
                 .rememberMe()
                 .and()
                 .logout(logout -> logout
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID"))
                 .oauth2Login(config -> config
                         .loginPage(loginMatcher)
-                        .defaultSuccessUrl("/main")
+                        .defaultSuccessUrl("/")
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(userService))
                 );
 

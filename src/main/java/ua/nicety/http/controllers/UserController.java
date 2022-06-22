@@ -25,14 +25,14 @@ public class UserController {
     private final UserServiceImpl userService;
 
 
-//  Show all users
+    //  Show all users
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "users/allUsers";
     }
 
-//  Show user
+    //  Show user
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id));
@@ -40,7 +40,7 @@ public class UserController {
     }
 
 
-//  User registration
+    //  User registration
     @GetMapping("/registration")
     public String registration(@ModelAttribute("user") UserCreateEditDto user) {
         return "users/registration";
@@ -56,12 +56,10 @@ public class UserController {
             return "redirect:/users/registration";
         }
         userService.create(user);
-        return "redirect:/users/login";
+        return "redirect:/login";
     }
 
-
-
-//  Edit & update user
+    //  Edit & update user
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userRepository.findById(id));
@@ -81,7 +79,7 @@ public class UserController {
         return "redirect:/users";
     }
 
-//  Delete user
+    //  Delete user
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
         if (!userService.delete(id)) {
