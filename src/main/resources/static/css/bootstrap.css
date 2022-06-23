@@ -75,11 +75,25 @@
   --bs-highlight-bg: #fff3cd;
 }
 
+.mainContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.left {
+  float: left;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
 /* Styles for Shedule */
 
 table {
-  width: 45%;
-  height: 445px;
+  width: 250%;
   background: white;
   font-size: 20px;
   color: white;
@@ -93,9 +107,9 @@ td, th {
 /* Styles for Footer */
 
 footer {
-  border-top: 2px solid silver;
-  margin-top: 13px;
-  padding: 0.5% 0.5% 2.2%;
+  /*position: absolute;*/
+  bottom: 0;
+  text-align: center;
 }
 
 footer img {
@@ -106,10 +120,6 @@ footer img {
 #page-wrap:after {
   content: "";
   display: block;
-}
-
-footer, #page-wrap {
-  height: 10px;
 }
 
 #page-wrap {
@@ -348,7 +358,7 @@ svg {
 
 table {
   caption-side: bottom;
-  border-collapse: collapse;
+  /*border-collapse: collapse;*/
 }
 
 caption {
@@ -674,6 +684,7 @@ progress {
 }
 
 .container,
+.mainContainer,
 .container-fluid,
 .container-xxl,
 .container-xl,
@@ -690,28 +701,28 @@ progress {
 }
 
 @media (min-width: 576px) {
-  .container-sm, .container {
+  .container-sm, .container, .mainContainer {
     max-width: 540px;
   }
 }
 @media (min-width: 768px) {
-  .container-md, .container-sm, .container {
+  .container-md, .container-sm, .container, .mainContainer {
     max-width: 720px;
   }
 }
 @media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
+  .container-lg, .container-md, .container-sm, .container, .mainContainer {
     max-width: 960px;
   }
 }
 @media (min-width: 1200px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xl, .container-lg, .container-md, .container-sm, .container, .mainContainer {
     max-width: 1140px;
   }
 }
 @media (min-width: 1400px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1320px;
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container, .mainContainer {
+    max-width: 1600px;
   }
 }
 .row {
@@ -2005,6 +2016,7 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
+
 .table {
   --bs-table-color: var(--bs-body-color);
   --bs-table-bg: transparent;
@@ -7002,10 +7014,10 @@ textarea.form-control-lg {
 }
 
 .link-primary {
-  color: #0d6efd !important;
+  color: #d88f5d !important;
 }
 .link-primary:hover, .link-primary:focus {
-  color: #0a58ca !important;
+  color: #563925 !important;
 }
 
 .link-secondary {
