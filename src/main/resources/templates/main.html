@@ -70,20 +70,15 @@
     </div>
 
 </header>
-<main class="text-center">
+<main class="text-center wrapper">
 
     <div class="mainContainer">
         <div th:insert="parts/schedule :: schedule"></div>
 
-        <div>
-            <button type="button" href="/events/new" class="btn btn-primary">Create Event</button>
-        </div>
+        <div th:insert="parts/eventCreatorPopup :: eventCreatorPopup"></div>
     </div>
 
+    <div th:insert="parts/footer :: footer"></div>
 </main>
-
-
-<div th:insert="parts/footer :: footer"></div>
-
 </body>
 </html>
