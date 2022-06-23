@@ -1,0 +1,62 @@
+<div th:fragment="schedule">
+    <table class="schedule">
+        <thead>
+        <tr>
+            <th>Day</th>
+            <th>Name</th>
+            <th>Time</th>
+            <th>🎯</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="event : ${events}">
+            <th th:text="${event.day}"></th>
+            <th th:text="${event.name}"></th>
+
+        <tr>
+            <th>Monday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Tuesday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Wednesday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Thursday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Friday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Saturday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        <tr>
+            <th>Sunday</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
