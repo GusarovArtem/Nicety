@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<header>
     <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
-    <title>Nicety | Main</title>
-</head>
+    <div th:insert="parts/header :: header"></div>
+    <title>Main | Nicety</title>
+</header>
 
 <body>
 
@@ -70,12 +71,13 @@
     </div>
 
 </header>
-<main class="text-center wrapper">
+<main class="text-center">
 
     <div class="mainContainer">
         <div th:insert="parts/schedule :: schedule"></div>
 
-        <div th:insert="parts/eventCreatorPopup :: eventCreatorPopup"></div>
+        <a href="/events/new" class="btn btn-primary createEvent">Create Event</a>
+
     </div>
 
     <div th:insert="parts/footer :: footer"></div>

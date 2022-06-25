@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <div th:insert="parts/header :: header"></div>
     <title>Nicety | Login</title>
 </head>
 
@@ -28,7 +28,7 @@
 
         <div>
             <a class="btn-google" href="/oauth2/authorization/google">Sign in with Google
-                <img src="/static/images/google-logo.png" class="icon" width="10%" height="10%"/>
+                <img src="/static/images/google-logo.png" class="icon" width="10%" height="10%" alt=""/>
             </a>
             <br>
             <a class="btn" href="/users/registration">Registration</a>
@@ -40,7 +40,7 @@
             </label>
         </div>
 
-        <div style="color: red" th:if="${param.error}">
+        <div class="error" th:if="${param.error}">
             Bad credentials
             <div><br/></div>
         </div>
