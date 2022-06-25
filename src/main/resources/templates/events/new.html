@@ -1,12 +1,69 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-<div th:insert="parts/header :: header"></div>
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+    <div th:insert="parts/header :: header"></div>
+    <title>Nicety | Create Event</title>
+</head>
 
 <body>
 
 <!--Create new event-->
 
-<div th:insert="parts/footer :: footer"></div>
+<!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
+<form th:action="@{/events/new}" method="post" th:object="${event}">
+    <div id="eventCreate" class="event">
+        <div class="event-content">
+            <div class="event-header">
+                <h7 class="center">Create Event</h7>
+                <span class="back">←</span>
+            </div>
+            <div class="event-body">
+                <div class="form-floating">
+                    <input name="name" th:value="*{name}" type="text" class="form-control" id="floatingName" placeholder="Name" />
+                    <label for="floatingName">Name</label>
+                </div>
+                <div class="form-floating">
+                    <select name="day" th:value="*{day}" type="text" class="form-control" id="floatingDay" >
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                        <option>Sunday</option>
+                    </select>
+                    <label for="floatingDay">Day</label>
+                </div>
+                <div class="form-floating">
+                    <input name="time" th:value="*{time}" type="time" class="form-control" id="floatingTime" placeholder="Time" value="7:30"/>
+                    <label for="floatingTime">Time</label>
+                </div>
+                <div class="form-floating">
+                    <input name="description" th:value="*{description}" type="text" class="form-control" id="floatingDescription" placeholder="Description" />
+                    <label for="floatingDescription">Description</label>
+                </div>
+                <div class="form-floating">
+                    <input name="color" th:value="*{color}" type="color" class="form-control" id="floatingColor" value="#fcc39c">
+                    <label for="floatingColor">Color</label>
+                </div>
+                <div class="form-floating">
+                    <input name="smiles" th:value="*{smiles}" type="text" class="form-control" id="floatingSmile" placeholder="Smiles" />
+                    <label for="floatingSmile">Smiles</label>
+                </div>
+            </div>
+
+            <div th:if="${errors}">
+                <p class="error" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+            </div>
+
+            <div class="event-footer">
+                <button class="w-25 btn btn-lg btn-primary " type="submit">Add</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/js/main.js"></script>
+
 </body>
 </html>
