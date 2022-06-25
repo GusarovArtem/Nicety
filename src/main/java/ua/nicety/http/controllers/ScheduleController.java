@@ -6,11 +6,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
+import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.service.MailService;
+import ua.nicety.service.ScheduleServiceImpl;
 
 import javax.validation.Valid;
 
@@ -20,6 +25,7 @@ import javax.validation.Valid;
 public class ScheduleController {
 
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleServiceImpl scheduleService;
     private final MailService mailService;
 
     @PostMapping(value = "/mail")
@@ -56,12 +62,15 @@ public class ScheduleController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("schedule") @Valid Schedule schedule,
-                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "schedules/new";
-
-        scheduleRepository.save(schedule);
+    public String create(@ModelAttribute @Validated ScheduleCreateEditDto schedule,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("schedule", schedule);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/schedule/new";
+        }
+        scheduleService.create(schedule);
 
         return "redirect:/schedules";
     }
@@ -74,7 +83,7 @@ public class ScheduleController {
         return "schedules/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/edit")
     public String update(@ModelAttribute("schedule") @Valid Schedule schedule,
                          BindingResult bindingResult,
                          @PathVariable("id") Long id) {
