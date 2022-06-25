@@ -22,9 +22,11 @@ public class Event {
 
     private String description;
 
+    private String color;
+
     private String smiles;
 
-    private Day day;
+    private String day;
 
     private LocalTime time;
 

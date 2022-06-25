@@ -1,7 +1,6 @@
 package ua.nicety.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -16,6 +15,7 @@ import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.UserRepository;
 import ua.nicety.http.dto.UserCreateEditDto;
 import ua.nicety.http.mapper.UserCreateEditMapper;
+import ua.nicety.service.interfaces.UserService;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -24,7 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {

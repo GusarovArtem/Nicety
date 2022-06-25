@@ -1,16 +1,15 @@
 package ua.nicety.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
+import ua.nicety.service.interfaces.EventService;
 
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {

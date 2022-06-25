@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.interfaces;
 
 import ua.nicety.http.dto.EventCreateEditDto;
 

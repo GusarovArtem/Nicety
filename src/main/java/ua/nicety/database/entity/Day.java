@@ -1,5 +1,5 @@
 package ua.nicety.database.entity;
 
 public enum Day {
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+    Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
 }
