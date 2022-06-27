@@ -1,13 +1,19 @@
 package ua.nicety.http.dto;
 
-import lombok.Value;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Schedule;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalTime;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventCreateEditDto {
 
     @NotEmpty(message = "Please write the name of the event")
@@ -23,5 +29,5 @@ public class EventCreateEditDto {
 
     LocalTime time;
 
-    Schedule schedule;
+    String scheduleId;
 }

@@ -73,7 +73,10 @@
     <div class="mainContainer">
         <div th:insert="parts/schedule :: schedule"></div>
 
-        <a href="/events/new" class="btn btn-primary createEvent">Create Event</a>
+        <form th:action="@{/events/new}" method="get">
+            <input type="text" name="scheduleId" th:value="${schedule.id}" hidden>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </form>
 
     </div>
 

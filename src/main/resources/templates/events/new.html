@@ -25,13 +25,16 @@
                 </div>
                 <div class="form-floating">
                     <select name="day" th:value="*{day}" type="text" class="form-control" id="floatingDay" >
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <option>Wednesday</option>
-                        <option>Thursday</option>
-                        <option>Friday</option>
-                        <option>Saturday</option>
-                        <option>Sunday</option>
+<!--                        <option>Monday</option>-->
+<!--                        <option>Tuesday</option>-->
+<!--                        <option>Wednesday</option>-->
+<!--                        <option>Thursday</option>-->
+<!--                        <option>Friday</option>-->
+<!--                        <option>Saturday</option>-->
+<!--                        <option>Sunday</option>-->
+                        <option th:each="day : ${days}"
+                                th:value="${day}"
+                                th:text="${day.getValue()}">Day</option>
                     </select>
                     <label for="floatingDay">Day</label>
                 </div>
@@ -51,6 +54,7 @@
                     <input name="smiles" th:value="*{smiles}" type="text" class="form-control" id="floatingSmile" placeholder="Smiles" />
                     <label for="floatingSmile">Smiles</label>
                 </div>
+                <input type="text" name="scheduleId" th:value="*{scheduleId}" hidden>
             </div>
 
             <div th:if="${errors}">

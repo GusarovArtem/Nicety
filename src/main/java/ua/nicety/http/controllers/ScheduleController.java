@@ -37,7 +37,7 @@ public class ScheduleController {
 
 
 //  Show all user schedules
-    @GetMapping()
+    @GetMapping
     public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         final User user = userService.getByEmail(userDetails.getUsername());
@@ -49,8 +49,9 @@ public class ScheduleController {
   //  Show user schedule
     @GetMapping("/{id}")
     public String userSchedule(
-            @ModelAttribute @PathVariable("id") Schedule schedule,
+            @PathVariable("id") Schedule schedule,
             Model model) {
+        model.addAttribute("schedule", schedule);
         return "schedules/userSchedule";
     }
 

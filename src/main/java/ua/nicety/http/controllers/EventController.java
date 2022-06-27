@@ -9,10 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.service.EventServiceImpl;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +39,12 @@ public class EventController {
 
 //  Create event
     @GetMapping("/new")
-    public String create(@ModelAttribute("event") EventCreateEditDto event) {
+    public String create(@RequestParam(required = false) String scheduleId, EventCreateEditDto event, Model model) {
+        Optional.ofNullable(scheduleId).ifPresent(event::setScheduleId);
+
+
+        model.addAttribute("days", Day.values());
+        model.addAttribute("event", event);
         return "events/new";
     }
 

@@ -16,6 +16,7 @@ import java.util.List;
 public class Schedule {
 
     @Id
+    @Column(unique = true, nullable = false)
     private String id;
 
     private String name;
