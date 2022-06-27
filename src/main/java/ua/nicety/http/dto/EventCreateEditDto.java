@@ -1,6 +1,7 @@
 package ua.nicety.http.dto;
 
 import lombok.Value;
+import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Schedule;
 
 import javax.validation.constraints.NotEmpty;
@@ -18,7 +19,7 @@ public class EventCreateEditDto {
 
     String color;
 
-    String day;
+    Day day;
 
     LocalTime time;
 

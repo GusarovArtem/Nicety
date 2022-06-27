@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class ScheduleCreateEditMapper implements Mapper<ScheduleCreateEditDto, Schedule> {
@@ -12,6 +14,9 @@ public class ScheduleCreateEditMapper implements Mapper<ScheduleCreateEditDto, S
     @Override
     public Schedule map(ScheduleCreateEditDto object) {
         Schedule schedule = new Schedule();
+
+        String id = UUID.randomUUID().toString();
+        schedule.setId(id);
         copy(object, schedule);
 
         return schedule;
@@ -24,6 +29,7 @@ public class ScheduleCreateEditMapper implements Mapper<ScheduleCreateEditDto, S
 
 
     private void copy(ScheduleCreateEditDto object, Schedule schedule) {
+
         schedule.setName(object.getName());
         schedule.setAuthor(object.getAuthor());
     }

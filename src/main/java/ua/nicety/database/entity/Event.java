@@ -26,7 +26,8 @@ public class Event {
 
     private String smiles;
 
-    private String day;
+    @Enumerated(EnumType.STRING)
+    private Day day;
 
     private LocalTime time;
 

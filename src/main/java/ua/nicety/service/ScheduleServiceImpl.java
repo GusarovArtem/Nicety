@@ -11,12 +11,14 @@ import ua.nicety.service.interfaces.ScheduleService;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleCreateEditMapper scheduleCreateEditMapper;
 
+    @Transactional
     public void create(ScheduleCreateEditDto scheduleDto) {
         Optional.of(scheduleDto)
                 .map(scheduleCreateEditMapper::map)
@@ -27,7 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Transactional
-    public boolean update(Long id, ScheduleCreateEditDto scheduleDto) {
+    public boolean update(String id, ScheduleCreateEditDto scheduleDto) {
         return scheduleRepository.findById(id)
                 .map(entity -> scheduleCreateEditMapper.map(scheduleDto, entity))
                 .map(schedule -> {
@@ -37,7 +39,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Transactional
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         return scheduleRepository.findById(id)
                 .map(entity -> {
                     scheduleRepository.deleteById(id);

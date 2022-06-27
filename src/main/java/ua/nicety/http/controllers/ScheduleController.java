@@ -12,10 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
-import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.service.MailService;
 import ua.nicety.service.ScheduleServiceImpl;
+import ua.nicety.service.interfaces.UserService;
 
 import javax.validation.Valid;
 
@@ -25,6 +25,7 @@ import javax.validation.Valid;
 public class ScheduleController {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserService userService;
     private final ScheduleServiceImpl scheduleService;
     private final MailService mailService;
 
@@ -37,7 +38,9 @@ public class ScheduleController {
 
 //  Show all user schedules
     @GetMapping()
-    public String userSchedules(User user, Model model) {
+    public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+
+        final User user = userService.getByEmail(userDetails.getUsername());
         model.addAttribute("schedules", scheduleRepository.findAllByAuthor(user));
 
         return "schedules/userSchedules";
@@ -46,45 +49,44 @@ public class ScheduleController {
   //  Show user schedule
     @GetMapping("/{id}")
     public String userSchedule(
-            @PathVariable("id") Schedule schedule,
+            @ModelAttribute @PathVariable("id") Schedule schedule,
             Model model) {
-        model.addAttribute("schedules", scheduleRepository.findById(schedule.getId()));
-
         return "schedules/userSchedule";
     }
 
 //  Create new Schedule
     @GetMapping("/new")
-    public String newSchedule(Model model, Schedule schedule) {
-        model.addAttribute("schedule", schedule);
+    public String newSchedule(Model model, @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
 
         return "schedules/new";
     }
 
-    @PostMapping()
-    public String create(@ModelAttribute @Validated ScheduleCreateEditDto schedule,
+    @PostMapping("/new")
+    public String create(@AuthenticationPrincipal UserDetails userDetails, @Validated ScheduleCreateEditDto schedule,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedule/new";
+            return "redirect:/schedules/new";
         }
+        final User user = userService.getByEmail(userDetails.getUsername());
+        schedule.setAuthor(user);
         scheduleService.create(schedule);
 
-        return "redirect:/schedules";
+        return "redirect:/main";
     }
 
 //  Edit & update schedule
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String edit(Model model, @PathVariable("id") String id) {
         model.addAttribute("schedule", scheduleRepository.findById(id));
 
         return "schedules/edit";
     }
 
     @PatchMapping("/{id}/edit")
-    public String update(@ModelAttribute("schedule") @Valid Schedule schedule,
+    public String update(@ModelAttribute("schedule") @Valid ScheduleCreateEditDto schedule,
                          BindingResult bindingResult,
                          @PathVariable("id") Long id) {
         if (bindingResult.hasErrors())
@@ -97,7 +99,7 @@ public class ScheduleController {
 
 //  Delete schedule
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") String id) {
         scheduleRepository.deleteById(id);
         return "redirect:/schedules";
     }

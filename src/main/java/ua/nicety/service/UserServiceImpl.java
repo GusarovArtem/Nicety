@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserCreateEditMapper userCreateEditMapper;
 
 
+    @Transactional
     public void create(UserCreateEditDto userDto) {
         Optional.of(userDto)
                 .map(userCreateEditMapper::map)
@@ -39,6 +41,11 @@ public class UserServiceImpl implements UserService {
                     userRepository.save(user);
                     return user;
                 });
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.getByEmail(email);
     }
 
     @Transactional

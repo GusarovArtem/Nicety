@@ -8,7 +8,7 @@ import ua.nicety.database.entity.User;
 import java.util.List;
 
 @Repository
-public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     List<Schedule> findAllByAuthor(User author);
 }
