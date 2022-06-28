@@ -24,6 +24,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public Optional<Schedule> findById(String id) {
+        return scheduleRepository.findById(id);
+    }
+
     @Transactional
     public Optional<Schedule> create(ScheduleCreateEditDto scheduleDto) {
         return Optional.of(scheduleDto)

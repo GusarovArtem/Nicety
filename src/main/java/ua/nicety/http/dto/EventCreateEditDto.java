@@ -6,8 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ua.nicety.database.entity.Day;
+import ua.nicety.http.validation.annotation.ScheduleValidate;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalTime;
 
 @Data
@@ -16,7 +17,7 @@ import java.time.LocalTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventCreateEditDto {
 
-    @NotEmpty(message = "Please write the name of the event")
+    @NotBlank(message = "Please write the name of the event")
     String name;
 
     String description;
@@ -29,5 +30,6 @@ public class EventCreateEditDto {
 
     LocalTime time;
 
+    @ScheduleValidate
     String scheduleId;
 }
