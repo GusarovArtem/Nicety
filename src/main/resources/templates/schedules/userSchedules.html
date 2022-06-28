@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-<div th:insert="parts/header :: header"></div>
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Schedules</title>
+</head>
+
+<!--Show all user schedules-->
+
 
 <body>
 
-<!--Show all user schedules-->
+<div class="mainContainer">
+
+    <form th:action="@{/schedules/}" method="get" th:object="${schedules}">
+        <div th:each="schedule : ${schedules}">
+            <a class="schedule-name" th:href="@{/schedules/{id}(id=${schedule.id})}" th:text="${schedule.name}"/>
+            <div class="center" th:insert="parts/schedule :: schedule"></div><br><br>
+        </div>
+    </form>
+
+    <a href="/schedules/new" class="btn btn-primary scheduleButton">Create Schedule</a>
+
+</div>
 
 <div th:insert="parts/footer :: footer"></div>
 </body>

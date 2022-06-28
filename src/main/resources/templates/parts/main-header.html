@@ -1,0 +1,74 @@
+<div th:fragment="main-header">
+    <header>
+        <div class="px-3 py-2 bg-dark text-white">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/main"
+                       class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        <img class="m-1" src="/images/user-schedule.png" alt="" width="65" height="65">
+                    </a>
+
+                    <h1 class="center">Manage yourself 🤟🏼</h1>
+
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                        <li>
+                            <a href="/static" class="nav-link text-white center">
+                                <img class="ml-10" src="/images/home.png" alt="" width="45" height="45"><br>
+                                <svg width="0" height="0">
+                                    <use xlink:href="/"></use>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/schedules" class="nav-link text-white center">
+                                <img class="ml-29" src="/images/schedule.png" alt="" width="45" height="45"><br>
+                                <svg width="0" height="0">
+                                    <use xlink:href="/schedules"></use>
+                                </svg>
+                                Schedules
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/settings" class="nav-link text-white center">
+                                <img class="ml-19" src="/images/schedule-settings(2).png" alt="" width="45" height="45"><br>
+                                <svg width="0" height="0">
+                                    <use xlink:href="/settings"></use>
+                                </svg>
+                                Settings
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/contacts" class="nav-link text-white center">
+                                <img class="ml-24" src="/images/contacts.png" alt="" width="45" height="45"><br>
+                                <svg width="0" height="0">
+                                    <use xlink:href="/contacts"></use>
+                                </svg>
+                                Contacts
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-3 py-2 border-bottom mb-3">
+            <div class="container d-flex flex-wrap justify-content-center">
+                <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+                    <input type="search" class="form-control" id="floatingInput" placeholder="Search..."
+                           aria-label="Search">
+                </form>
+                <a type="button" href="/schedules/new" style="margin-right: 5px" class="btn btn-primary">Create Schedule</a>
+                <form th:action="@{/schedules/mail}" method="post">
+                    <button type="submit" style="margin-right: 5px" class="btn btn-primary">Get in PDF by email</button>
+                </form>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-primary">Log out</button>
+                </form>
+            </div>
+        </div>
+
+    </header>
+
+</div>
