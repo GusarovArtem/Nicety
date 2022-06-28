@@ -26,7 +26,7 @@ public class EventController {
     private final EventServiceImpl eventService;
 
 
-//  Show schedule event
+    //  Show schedule event
     @GetMapping("/{id}")
     public String scheduleEvent(
             @PathVariable("id") Event event,
@@ -37,7 +37,7 @@ public class EventController {
         return "events/scheduleEvent";
     }
 
-//  Create event
+    //  Create event
     @GetMapping("/new")
     public String create(@RequestParam(required = false) String scheduleId, EventCreateEditDto event, Model model) {
         Optional.ofNullable(scheduleId).ifPresent(event::setScheduleId);
@@ -50,8 +50,8 @@ public class EventController {
 
     @PostMapping("/new")
     public String add(@ModelAttribute @Validated EventCreateEditDto event,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes) {
+                      BindingResult bindingResult,
+                      RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());

@@ -27,8 +27,11 @@ public class MainController {
         if(user.getSchedules().size() == 1 ) {
             Schedule schedule = user.getSchedules().stream().findAny().get();
             return "redirect:/schedules/" + schedule.getId();
+//      Select the schedule
+        } else if (user.getSchedules().size() > 1 ) {
+            return "redirect:/schedules/";
         }
-        return "redirect:/schedules/new";
 
+        return "redirect:/schedules/new";
     }
 }

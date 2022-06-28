@@ -1,6 +1,7 @@
 package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
@@ -18,6 +20,7 @@ import ua.nicety.service.ScheduleServiceImpl;
 import ua.nicety.service.interfaces.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/schedules")
@@ -57,13 +60,14 @@ public class ScheduleController {
 
 //  Create new Schedule
     @GetMapping("/new")
-    public String newSchedule(Model model, @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
+    public String newSchedule(@ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
 
         return "schedules/new";
     }
 
     @PostMapping("/new")
-    public String create(@AuthenticationPrincipal UserDetails userDetails, @Validated ScheduleCreateEditDto schedule,
+    public String create(@AuthenticationPrincipal UserDetails userDetails,
+                         @Validated ScheduleCreateEditDto schedule,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -78,31 +82,40 @@ public class ScheduleController {
         return "redirect:/main";
     }
 
-//  Edit & update schedule
+    //  Edit & update schedule
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") String id) {
-        model.addAttribute("schedule", scheduleRepository.findById(id));
+        model.addAttribute("schedule", scheduleRepository.findById(id).get());
 
         return "schedules/edit";
     }
 
-    @PatchMapping("/{id}/edit")
-    public String update(@ModelAttribute("schedule") @Valid ScheduleCreateEditDto schedule,
+    @PostMapping("/{id}/edit")
+    public String update(@AuthenticationPrincipal UserDetails userDetails,
+                         @Valid ScheduleCreateEditDto schedule,
                          BindingResult bindingResult,
-                         @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors())
-            return "schedules/edit";
+                         RedirectAttributes redirectAttributes,
+                         @PathVariable(value="id") String id) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("schedule", schedule);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/schedules/"+ id + "/edit";
+        }
 
-//        scheduleRepository.update(id, schedule);
+        final User user = userService.getByEmail(userDetails.getUsername());
+        schedule.setAuthor(user);
 
-        return "redirect:/schedules";
+        if (!scheduleService.update(id, schedule)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/schedules/" + id;
     }
 
 //  Delete schedule
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String delete(@PathVariable("id") String id) {
         scheduleRepository.deleteById(id);
-        return "redirect:/schedules";
+        return "redirect:/main";
     }
 }
 
