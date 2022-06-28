@@ -146,7 +146,7 @@ footer img {
 
 /* JavaScript - event creator window*/
 
-.event {
+.form {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -171,7 +171,7 @@ footer img {
   cursor: pointer;
 }
 
-.event-header {
+.form-header {
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
   font-size: 20px;
@@ -182,18 +182,18 @@ footer img {
   flex-direction: column-reverse;
 }
 
-.event-body {
+.form-body {
   padding: 15px 20px;
 }
 
-.event-footer {
+.form-footer {
   padding: 2px 16px;
   color: white;
   margin: 15px;
   text-align: center;
 }
 
-.event-content {
+.form-content {
   border-radius: 40px;
   background-color: #fcc39c;
   margin-left: auto;
@@ -221,8 +221,9 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.createEvent {
-  height: 20%;
+.scheduleButton {
+  height: 10%;
+  margin-bottom: 2px;
 }
 
 hr {
@@ -460,9 +461,13 @@ tfoot,
 tr,
 td,
 th {
-  border-color: #4d4d4d;
+  border-color: #00000094;
   border-style: inset;
   background-color: #e1a881c9;
+}
+
+.mainContainer.center {
+  margin-top: 20px;
 }
 
 label {
@@ -471,6 +476,13 @@ label {
 
 button {
   border-radius: 0;
+}
+
+
+
+.schedule-name {
+  color: #000000;
+  font-size: 35px;
 }
 
 button:focus:not(:focus-visible) {
@@ -509,6 +521,7 @@ select:disabled {
 }
 
 .center {
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
@@ -540,6 +553,10 @@ fieldset {
   padding: 0;
   margin: 0;
   border: 0;
+}
+
+.flex-start {
+  justify-content: flex-start;
 }
 
 legend {
@@ -7739,6 +7756,16 @@ textarea.form-control-lg {
 
 .w-25 {
   width: 25% !important;
+}
+
+/* delete button */
+.w-23 {
+  width: 23% !important;
+}
+
+.deleteButton {
+  margin-top: 10px;
+  float: right;
 }
 
 .w-50 {
