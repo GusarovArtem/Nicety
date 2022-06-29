@@ -19,6 +19,7 @@ import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.service.EventServiceImpl;
+import ua.nicety.service.interfaces.EventService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -28,17 +29,16 @@ import java.util.Optional;
 @RequestMapping("/schedules/{scheduleId}/events")
 public class EventController {
 
-    private final EventRepository eventRepository;
-    private final EventServiceImpl eventService;
+    private final EventService eventService;
 
 
     //  Show schedule event
     @GetMapping("/{id}")
     public String scheduleEvent(
             @PathVariable("id") Event event,
-            Model model
-    ) {
-        model.addAttribute("user", eventRepository.findById(event.getId()));
+            Model model,
+            @PathVariable String scheduleId) {
+        model.addAttribute("user", eventService.findById(event.getId()));
 
         return "events/scheduleEvent";
     }
@@ -82,7 +82,9 @@ public class EventController {
             @PathVariable("id") Long id
     ) {
 
-        Event event =  eventRepository.findById(id).get();
+        Event event =  eventService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         Schedule schedule = new Schedule();
         schedule.setId(scheduleId);
         event.setSchedule(schedule);
@@ -95,12 +97,12 @@ public class EventController {
 
     @PostMapping("/{id}/edit")
     public String update(
+            @PathVariable(value="scheduleId") String scheduleId,
+            @PathVariable(value="id") Long id,
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid EventCreateEditDto event,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes,
-            @PathVariable(value="scheduleId") String scheduleId,
-            @PathVariable(value="id") Long id
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
@@ -122,7 +124,10 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
-        eventRepository.deleteById(id);
+
+        if (!eventService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
 
         return "redirect:/schedules/" + scheduleId;
     }

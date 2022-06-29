@@ -3,6 +3,7 @@ package ua.nicety.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.nicety.database.entity.Event;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
@@ -17,13 +18,10 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventCreateEditMapper eventCreateEditMapper;
 
-    public void create(EventCreateEditDto eventDto) {
-        Optional.of(eventDto)
+    public Event create(EventCreateEditDto eventDto) {
+        return Optional.of(eventDto)
                 .map(eventCreateEditMapper::map)
-                .map(event -> {
-                    eventRepository.save(event);
-                    return event;
-                });
+                .map(eventRepository::save).orElse(null);
     }
 
     @Transactional
@@ -44,5 +42,10 @@ public class EventServiceImpl implements EventService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    @Override
+    public Optional<Event> findById(Long id) {
+        return eventRepository.findById(id);
     }
 }
