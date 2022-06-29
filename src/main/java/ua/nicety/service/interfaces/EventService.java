@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface EventService {
 
     Event create(EventCreateEditDto eventCreateEditDto);
-    boolean update(Long id, EventCreateEditDto eventCreateEditDto);
+    Optional<Event> update(Long id, EventCreateEditDto eventCreateEditDto);
     boolean delete(Long id);
 
     Optional<Event> findById(Long id);

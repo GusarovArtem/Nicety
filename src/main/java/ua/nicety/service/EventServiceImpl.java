@@ -25,13 +25,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Transactional
-    public boolean update(Long id, EventCreateEditDto eventDto) {
+    public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
         return eventRepository.findById(id)
                 .map(entity -> eventCreateEditMapper.map(eventDto, entity))
-                .map(event -> {
-                    eventRepository.saveAndFlush(event);
-                    return true;
-                }).orElse(false);
+                .map(eventRepository::saveAndFlush);
     }
 
     @Transactional

@@ -112,9 +112,9 @@ public class EventController {
 
         event.setScheduleId(scheduleId);
 
-        if (!eventService.update(id, event)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        eventService.update(id, event)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         return "redirect:/schedules/" + scheduleId;
     }
 
