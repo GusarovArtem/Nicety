@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.Schedule;
+import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.mapper.ScheduleCreateEditMapper;
 import ua.nicety.service.interfaces.ScheduleService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findById(id);
     }
 
+    @Override
+    public List<Schedule> findAllByAuthor(User user) {
+        return scheduleRepository.findAllByAuthor(user);
+    }
+
     @Transactional
     public Optional<Schedule> create(ScheduleCreateEditDto scheduleDto) {
         return Optional.of(scheduleDto)
@@ -37,13 +44,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Transactional
-    public boolean update(String id, ScheduleCreateEditDto scheduleDto) {
+    public Optional<Schedule> update(String id, ScheduleCreateEditDto scheduleDto) {
         return scheduleRepository.findById(id)
                 .map(entity -> scheduleCreateEditMapper.map(scheduleDto, entity))
-                .map(schedule -> {
-                    scheduleRepository.saveAndFlush(schedule);
-                    return true;
-                }).orElse(false);
+                .map(scheduleRepository::saveAndFlush);
     }
 
     @Transactional

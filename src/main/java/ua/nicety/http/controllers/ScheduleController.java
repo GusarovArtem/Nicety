@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
@@ -26,7 +27,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleRepository scheduleRepository;
     private final UserService userService;
     private final ScheduleServiceImpl scheduleService;
     private final MailService mailService;
@@ -43,7 +43,7 @@ public class ScheduleController {
     public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         final User user = userService.getByEmail(userDetails.getUsername());
-        model.addAttribute("schedules", scheduleRepository.findAllByAuthor(user));
+        model.addAttribute("schedules", scheduleService.findAllByAuthor(user));
 
         return "schedules/userSchedules";
     }
@@ -86,7 +86,11 @@ public class ScheduleController {
     //  Edit & update schedule
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") String id) {
-        model.addAttribute("schedule", scheduleRepository.findById(id).get());
+
+        Schedule schedule =  scheduleService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        model.addAttribute("schedule", schedule);
 
         return "schedules/edit";
     }
@@ -108,16 +112,22 @@ public class ScheduleController {
         final User user = userService.getByEmail(userDetails.getUsername());
         schedule.setAuthor(user);
 
-        if (!scheduleService.update(id, schedule)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        scheduleService.update(id, schedule)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         return "redirect:/schedules/" + id;
     }
 
-//  Delete schedule
+    //  Delete schedule
     @PostMapping("/{id}")
-    public String delete(@PathVariable("id") String id) {
-        scheduleRepository.deleteById(id);
+    public String delete(
+            @PathVariable("id") String id
+    ) {
+
+        if (!scheduleService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
         return "redirect:/main";
     }
 }

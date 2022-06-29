@@ -2,8 +2,6 @@ package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,11 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
-import ua.nicety.database.entity.User;
-import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.ScheduleCreateEditDto;
-import ua.nicety.service.EventServiceImpl;
 import ua.nicety.service.interfaces.EventService;
 
 import javax.validation.Valid;
@@ -30,7 +24,6 @@ import java.util.Optional;
 public class EventController {
 
     private final EventService eventService;
-
 
     //  Show schedule event
     @GetMapping("/{id}")
@@ -99,7 +92,6 @@ public class EventController {
     public String update(
             @PathVariable(value="scheduleId") String scheduleId,
             @PathVariable(value="id") Long id,
-            @AuthenticationPrincipal UserDetails userDetails,
             @Valid EventCreateEditDto event,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
@@ -118,7 +110,7 @@ public class EventController {
         return "redirect:/schedules/" + scheduleId;
     }
 
-    //  Delete schedule
+    //  Delete event
     @PostMapping("/{id}")
     public String delete(
             @PathVariable("scheduleId") String scheduleId,
