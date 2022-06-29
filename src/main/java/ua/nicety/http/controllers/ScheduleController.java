@@ -20,7 +20,6 @@ import ua.nicety.service.ScheduleServiceImpl;
 import ua.nicety.service.interfaces.UserService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/schedules")
@@ -66,10 +65,12 @@ public class ScheduleController {
     }
 
     @PostMapping("/new")
-    public String create(@AuthenticationPrincipal UserDetails userDetails,
-                         @Validated ScheduleCreateEditDto schedule,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes) {
+    public String create(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Validated ScheduleCreateEditDto schedule,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -91,11 +92,13 @@ public class ScheduleController {
     }
 
     @PostMapping("/{id}/edit")
-    public String update(@AuthenticationPrincipal UserDetails userDetails,
-                         @Valid ScheduleCreateEditDto schedule,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes,
-                         @PathVariable(value="id") String id) {
+    public String update(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid ScheduleCreateEditDto schedule,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
+            @PathVariable(value="id") String id
+    ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());

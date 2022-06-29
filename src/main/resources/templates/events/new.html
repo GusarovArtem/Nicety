@@ -6,12 +6,12 @@
     <title>Nicety | Create Event</title>
 </head>
 
-<body>
-
 <!--Create new event-->
 
+<body>
+
 <!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
-<form th:action="@{/events/new}" method="post" th:object="${event}">
+<form th:action="@{'/schedules/' + ${scheduleId} + '/events/new'}" method="post" th:object="${event}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">
@@ -27,7 +27,7 @@
                     <select name="day" th:value="*{day}" type="text" class="form-control" id="floatingDay" >
                         <option th:each="day : ${days}"
                                 th:value="${day}"
-                                th:text="${day.getValue()}">Day</option>
+                                th:text="${day.value}">Day</option>
                     </select>
                     <label for="floatingDay">Day</label>
                 </div>

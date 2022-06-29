@@ -11,11 +11,11 @@
 <!--Edit event-->
 
 <!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
-<form th:action="@{/events/{id}/edit}" method="post" th:object="${event}">
+<form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id} + '/edit'}" method="post" th:object="${event}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">
-                <h7 class="center">Create Event</h7>
+                <h7 class="center">Edit Event</h7>
                 <span class="back">←</span>
             </div>
             <div class="form-body">
@@ -25,13 +25,9 @@
                 </div>
                 <div class="form-floating">
                     <select name="day" th:value="*{day}" type="text" class="form-control" id="floatingDay" >
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <option>Wednesday</option>
-                        <option>Thursday</option>
-                        <option>Friday</option>
-                        <option>Saturday</option>
-                        <option>Sunday</option>
+                        <option th:each="day : ${days}"
+                                th:value="${day}"
+                                th:text="${day.value}">Day</option>
                     </select>
                     <label for="floatingDay">Day</label>
                 </div>
@@ -51,6 +47,7 @@
                     <input name="smiles" th:value="*{smiles}" type="text" class="form-control" id="floatingSmile" placeholder="Smiles" />
                     <label for="floatingSmile">Smiles</label>
                 </div>
+                <input type="text" name="scheduleId" th:value="*{scheduleId}" hidden>
             </div>
 
             <div th:if="${errors}">
@@ -58,14 +55,19 @@
             </div>
 
             <div class="form-footer">
-                <button class="w-25 btn btn-lg btn-primary " type="submit">Save</button>
+                <button class="w-25 btn btn-lg btn-primary " type="submit">Add</button>
             </div>
-            <form th:method="DELETE" th:action="@{/events/{id}(id=${event.id})}">
-                <img src="/images/delete.png" width="45" height="45" type="submit" alt=""/>
-            </form>
         </div>
     </div>
 </form>
+
+<!-- Delete event-->
+<form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id}}" method="post">
+    <button class="w-23 deleteButton btn btn-lg btn-primary " type="submit">
+        <img src="/static/images/delete.png" width="25" height="25" alt=""/>
+    </button>
+</form>
+
 <script src="/js/main.js"></script>
 
 </body>

@@ -2,6 +2,8 @@ package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,15 +13,19 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
+import ua.nicety.database.entity.Schedule;
+import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.service.EventServiceImpl;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/events")
+@RequestMapping("/schedules/{scheduleId}/events")
 public class EventController {
 
     private final EventRepository eventRepository;
@@ -39,9 +45,11 @@ public class EventController {
 
     //  Create event
     @GetMapping("/new")
-    public String create(@RequestParam(required = false) String scheduleId, EventCreateEditDto event, Model model) {
+    public String create(
+            @PathVariable(value="scheduleId") String scheduleId,
+            EventCreateEditDto event, Model model
+    ) {
         Optional.ofNullable(scheduleId).ifPresent(event::setScheduleId);
-
 
         model.addAttribute("days", Day.values());
         model.addAttribute("event", event);
@@ -49,46 +57,73 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public String add(@ModelAttribute @Validated EventCreateEditDto event,
-                      BindingResult bindingResult,
-                      RedirectAttributes redirectAttributes) {
+    public String add(
+            @ModelAttribute @Validated EventCreateEditDto event,
+            @PathVariable(value="scheduleId") String scheduleId,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/events/new";
+            return "redirect:/schedules/" + scheduleId  +"/events/new";
         }
+        event.setScheduleId(scheduleId);
+
         eventService.create(event);
-        return "redirect:/main";
+        return "redirect:/schedules/" + scheduleId;
     }
 
     //  Edit & update event
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("event", eventRepository.findById(id));
+    public String edit(
+            Model model,
+            @PathVariable("scheduleId") String scheduleId,
+            @PathVariable("id") Long id
+    ) {
+
+        Event event =  eventRepository.findById(id).get();
+        Schedule schedule = new Schedule();
+        schedule.setId(scheduleId);
+        event.setSchedule(schedule);
+
+        model.addAttribute("days", Day.values());
+        model.addAttribute("event", event);
+
         return "events/edit";
     }
 
-    @PatchMapping("/{id}/edit")
-    public String update(@ModelAttribute @Validated EventCreateEditDto event,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes,
-                         @PathVariable("id") Long id) {
+    @PostMapping("/{id}/edit")
+    public String update(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid EventCreateEditDto event,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
+            @PathVariable(value="scheduleId") String scheduleId,
+            @PathVariable(value="id") Long id
+    ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/events/{id}/edit";
+            return "redirect:/schedules/"+ scheduleId + "/events/" + id;
         }
+
+        event.setScheduleId(scheduleId);
 
         if (!eventService.update(id, event)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/main";
+        return "redirect:/schedules/" + scheduleId;
     }
 
-    //  Delete event
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    //  Delete schedule
+    @PostMapping("/{id}")
+    public String delete(
+            @PathVariable("scheduleId") String scheduleId,
+            @PathVariable("id") Long id
+    ) {
         eventRepository.deleteById(id);
-        return "redirect:/main";
+
+        return "redirect:/schedules/" + scheduleId;
     }
 }
