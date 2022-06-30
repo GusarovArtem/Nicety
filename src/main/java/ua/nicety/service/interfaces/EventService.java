@@ -1,8 +1,11 @@
 package ua.nicety.service.interfaces;
 
 import ua.nicety.database.entity.Event;
+import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.EventReadDto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface EventService {
@@ -12,4 +15,6 @@ public interface EventService {
     boolean delete(Long id);
 
     Optional<Event> findById(Long id);
+
+    List<EventReadDto> findBySchedule(Schedule schedule);
 }

@@ -11,24 +11,31 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
-import ua.nicety.database.repository.ScheduleRepository;
+import ua.nicety.http.dto.EventReadDto;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.service.MailService;
-import ua.nicety.service.ScheduleServiceImpl;
+import ua.nicety.service.interfaces.EventService;
+import ua.nicety.service.interfaces.ScheduleService;
 import ua.nicety.service.interfaces.UserService;
 
 import javax.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
+    private final EventService eventService;
     private final UserService userService;
-    private final ScheduleServiceImpl scheduleService;
+    private final ScheduleService scheduleService;
     private final MailService mailService;
 
     @PostMapping(value = "/mail")
@@ -53,7 +60,16 @@ public class ScheduleController {
     public String userSchedule(
             @PathVariable("id") Schedule schedule,
             Model model) {
+
+        List<EventReadDto> events = eventService.findBySchedule(schedule);
+
+        Map<Day, List<EventReadDto>> mapEvents = events.stream()
+                .sorted(Comparator.comparing(EventReadDto::getTime))
+                .collect(Collectors.groupingBy(EventReadDto::getDay));
+
+        model.addAttribute("mapEvents", mapEvents);
         model.addAttribute("schedule", schedule);
+
         return "schedules/userSchedule";
     }
 

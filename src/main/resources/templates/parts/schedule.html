@@ -10,49 +10,17 @@
         </tr>
         </thead>
         <tbody>
-
-        <tr>
-            <th>Monday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Tuesday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Wednesday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Thursday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Friday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>Saturday</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        <tr>
-            <th>Sunday</th>
-            <th></th>
-            <th></th>
-            <th></th>
+        <tr th:each="element : ${mapEvents}">
+            <td th:text="${element.key.value}">Day</td>
+            <table>
+                <tr th:each="event : ${element.value}">
+                    <td th:text="${event.name}">Some name</td>
+                    <td th:text="${anews.description}">Some name</td>
+                    <td th:text="${anews.url}">Some name</td>
+                    <td th:text="${anews.logo}">Some name</td>
+                    <td th:text="${anews.collectionDate}">Some name</td>
+                </tr>
+            </table>
         </tr>
         </tbody>
     </table>

@@ -16,12 +16,33 @@
 
     <div class="mainContainer ">
         <form th:action="@{/schedules/{id}(id=${schedule.id})}" method="get" th:object="${schedule}">
-            <div th:insert="parts/schedule :: schedule" class="flex-start"></div>
+            <table class="schedule">
+                <tr>
+                    <th>Day</th>
+                    <th>Name</th>
+                    <th>Time</th>
+                    <th>🎯</th>
+                </tr>
+                <tr th:each="element : ${mapEvents}">
+                    <td th:text="${element.key.value}">Day</td>
+                    <td>
+                        <table>
+                            <tr th:each="event : ${element.value}">
+                                <td th:text="${event.name}"></td>
+                                <td th:text="${event.time}"></td>
+                                <td th:text="${event.smiles}"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </form>
 
         <div>
-            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create Event</a>
-            <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
+            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create
+                Event</a>
+            <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit
+                Schedule</a>
 
             <form th:action="@{'/schedules/' + ${schedule.id}}" method="post">
                 <button class="w-23 deleteButton btn btn-lg btn-primary " type="submit">
