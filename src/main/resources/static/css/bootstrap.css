@@ -206,6 +206,16 @@ footer img {
 
 }
 
+.editEventLink {
+  color: #ffffff;
+  text-decoration: auto;
+}
+
+.editEventLink:hover {
+  color: #000000;
+  text-decoration: auto;
+}
+
 /* Body */
 
 body {
@@ -222,7 +232,7 @@ body {
 }
 
 .scheduleButton {
-  height: 10%;
+  height: 14%;
   margin-bottom: 2px;
 }
 
