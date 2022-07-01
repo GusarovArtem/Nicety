@@ -1,12 +1,10 @@
-package ua.nicety.http.mapper;
+package ua.nicety.http.mapper.read;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ua.nicety.database.entity.Event;
-import ua.nicety.database.entity.Schedule;
-import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.EventReadDto;
-import ua.nicety.service.interfaces.ScheduleService;
+import ua.nicety.http.dto.read.EventReadDto;
+import ua.nicety.http.mapper.Mapper;
 
 @Component
 @RequiredArgsConstructor

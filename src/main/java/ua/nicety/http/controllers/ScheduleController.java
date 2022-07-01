@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
-import ua.nicety.http.dto.EventReadDto;
+import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
+import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.service.MailService;
 import ua.nicety.service.interfaces.EventService;
 import ua.nicety.service.interfaces.ScheduleService;
@@ -24,6 +24,7 @@ import ua.nicety.service.interfaces.UserService;
 
 import javax.validation.Valid;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,8 +50,21 @@ public class ScheduleController {
     @GetMapping
     public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        final User user = userService.getByEmail(userDetails.getUsername());
-        model.addAttribute("schedules", scheduleService.findAllByAuthor(user));
+        Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
+        List<Schedule> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
+
+        for (Schedule schedule : schedules) {
+            List<EventReadDto> events = eventService.findBySchedule(schedule);
+
+            Map<Day, List<EventReadDto>> mapEvents = events.stream()
+                    .sorted(Comparator.comparing(EventReadDto::getTime))
+                    .collect(Collectors.groupingBy(EventReadDto::getDay));
+
+            mapSchedules.put(schedule.getId(), mapEvents);
+        }
+
+        model.addAttribute("mapSchedules", mapSchedules);
+        model.addAttribute("schedules", schedules);
 
         return "schedules/userSchedules";
     }

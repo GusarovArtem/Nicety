@@ -13,10 +13,31 @@
 
 <div class="mainContainer">
 
-    <form th:action="@{/schedules/}" method="get" th:object="${schedules}">
-        <div th:each="schedule : ${schedules}">
-            <a class="schedule-name" th:href="@{/schedules/{id}(id=${schedule.id})}" th:text="${schedule.name}"/>
-            <div class="center" th:insert="parts/schedule :: schedule"></div><br><br>
+    <form th:action="@{/schedules/}" method="get" th:object="${mapSchedules}">
+        <div th:each="mapEvents,iter : ${mapSchedules}">
+            <a th:field="${schedules}" class="schedule-name" th:href="@{/schedules/{id}(id=${mapEvents.key})}" th:text="${schedules.get(iter.index).name}"/>
+
+            <div class="center">
+
+                <table class="schedule">
+                    <tr>
+                        <th>Day</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>🎯</th>
+                    </tr>
+                    <th:block th:each="element : ${mapEvents.value}">
+                        <th th:rowspan="${element.value.size}+1" th:text="${element.key.value}">Day</th>
+                        <tr th:each="event : ${element.value}">
+                            <td><a th:text="${event.name}" th:href="'/schedules/' + ${mapEvents.key} + '/events/' + ${event.id} + '/edit' " class="editEventLink"/></td>
+                            <td  th:text="${event.time}"></td>
+                            <td  th:text="${event.smiles}"></td>
+                        </tr>
+                    </th:block>
+
+                </table>
+
+            </div><br><br>
         </div>
     </form>
 

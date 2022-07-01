@@ -1,4 +1,4 @@
-package ua.nicety.http.dto;
+package ua.nicety.http.dto.read;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

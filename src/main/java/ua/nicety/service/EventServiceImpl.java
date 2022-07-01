@@ -7,9 +7,9 @@ import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.EventReadDto;
+import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
-import ua.nicety.http.mapper.EventReadMapper;
+import ua.nicety.http.mapper.read.EventReadMapper;
 import ua.nicety.service.interfaces.EventService;
 
 import java.util.List;
