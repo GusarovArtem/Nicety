@@ -12,17 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Schedule;
+
 import ua.nicety.database.entity.User;
-import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
+import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.service.MailService;
 import ua.nicety.service.interfaces.EventService;
 import ua.nicety.service.interfaces.ScheduleService;
 import ua.nicety.service.interfaces.UserService;
-
-import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -51,10 +49,10 @@ public class ScheduleController {
     public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
-        List<Schedule> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
+        List<ScheduleReadDto> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
 
-        for (Schedule schedule : schedules) {
-            List<EventReadDto> events = eventService.findBySchedule(schedule);
+        for (ScheduleReadDto schedule : schedules) {
+            List<EventReadDto> events = eventService.findByScheduleId(schedule.getId());
 
             Map<Day, List<EventReadDto>> mapEvents = events.stream()
                     .sorted(Comparator.comparing(EventReadDto::getTime))
@@ -72,10 +70,12 @@ public class ScheduleController {
   //  Show user schedule
     @GetMapping("/{id}")
     public String userSchedule(
-            @PathVariable("id") Schedule schedule,
+            @PathVariable("id") String scheduleId,
             Model model) {
 
-        List<EventReadDto> events = eventService.findBySchedule(schedule);
+        ScheduleReadDto schedule = scheduleService.findById(scheduleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<EventReadDto> events = eventService.findByScheduleId(schedule.getId());
 
         Map<Day, List<EventReadDto>> mapEvents = events.stream()
                 .sorted(Comparator.comparing(EventReadDto::getTime))
@@ -117,7 +117,7 @@ public class ScheduleController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") String id) {
 
-        Schedule schedule =  scheduleService.findById(id)
+        ScheduleReadDto schedule =  scheduleService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         model.addAttribute("schedule", schedule);
@@ -128,7 +128,7 @@ public class ScheduleController {
     @PostMapping("/{id}/edit")
     public String update(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Valid ScheduleCreateEditDto schedule,
+            @Validated ScheduleCreateEditDto schedule,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @PathVariable(value="id") String id

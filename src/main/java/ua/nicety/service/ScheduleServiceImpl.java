@@ -7,11 +7,14 @@ import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
+import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.http.mapper.ScheduleCreateEditMapper;
+import ua.nicety.http.mapper.read.ScheduleReadMapper;
 import ua.nicety.service.interfaces.ScheduleService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,6 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleCreateEditMapper scheduleCreateEditMapper;
+    private final ScheduleReadMapper scheduleReadMapper;
 
     @Override
     public Schedule getById(String id) {
@@ -27,27 +31,31 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Optional<Schedule> findById(String id) {
-        return scheduleRepository.findById(id);
+    public Optional<ScheduleReadDto> findById(String id) {
+        return scheduleRepository.findById(id).map(scheduleReadMapper::map);
     }
 
     @Override
-    public List<Schedule> findAllByAuthor(User user) {
-        return scheduleRepository.findAllByAuthor(user);
+    public List<ScheduleReadDto> findAllByAuthor(User user) {
+        return scheduleRepository.findAllByAuthor(user)
+                .stream().map(scheduleReadMapper::map)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Optional<Schedule> create(ScheduleCreateEditDto scheduleDto) {
+    public Optional<ScheduleReadDto> create(ScheduleCreateEditDto scheduleDto) {
         return Optional.of(scheduleDto)
                 .map(scheduleCreateEditMapper::map)
-                .map(scheduleRepository::save);
+                .map(scheduleRepository::save)
+                .map(scheduleReadMapper::map);
     }
 
     @Transactional
-    public Optional<Schedule> update(String id, ScheduleCreateEditDto scheduleDto) {
+    public Optional<ScheduleReadDto> update(String id, ScheduleCreateEditDto scheduleDto) {
         return scheduleRepository.findById(id)
                 .map(entity -> scheduleCreateEditMapper.map(scheduleDto, entity))
-                .map(scheduleRepository::saveAndFlush);
+                .map(scheduleRepository::saveAndFlush)
+                .map(scheduleReadMapper::map);
     }
 
     @Transactional

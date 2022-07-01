@@ -15,7 +15,6 @@ public class ScheduleReadMapper implements Mapper<Schedule, ScheduleReadDto> {
         return ScheduleReadDto.builder()
                 .id(object.getId())
                 .name(object.getName())
-                .author(object.getAuthor())
                 .build();
     }
 }

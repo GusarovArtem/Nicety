@@ -15,6 +15,5 @@ public interface EventService {
     boolean delete(Long id);
 
     Optional<Event> findById(Long id);
-
-    List<EventReadDto> findBySchedule(Schedule schedule);
+    List<EventReadDto> findByScheduleId(String id);
 }

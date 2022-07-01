@@ -40,7 +40,8 @@ public class EventController {
     @GetMapping("/new")
     public String create(
             @PathVariable(value="scheduleId") String scheduleId,
-            EventCreateEditDto event, Model model
+            @ModelAttribute("event") EventCreateEditDto event,
+            Model model
     ) {
         Optional.ofNullable(scheduleId).ifPresent(event::setScheduleId);
 
@@ -51,8 +52,8 @@ public class EventController {
 
     @PostMapping("/new")
     public String add(
-            @ModelAttribute @Validated EventCreateEditDto event,
             @PathVariable(value="scheduleId") String scheduleId,
+            @ModelAttribute @Validated EventCreateEditDto event,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {

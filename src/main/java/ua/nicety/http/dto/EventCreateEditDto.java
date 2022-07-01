@@ -9,6 +9,7 @@ import ua.nicety.database.entity.Day;
 import ua.nicety.http.validation.annotation.ScheduleValidate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 @Data
@@ -28,6 +29,7 @@ public class EventCreateEditDto {
 
     Day day;
 
+    @NotNull(message = "Please write time of the event")
     LocalTime time;
 
     @ScheduleValidate

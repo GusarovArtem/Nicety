@@ -53,8 +53,11 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findById(id);
     }
 
+
     @Override
-    public List<EventReadDto> findBySchedule(Schedule schedule) {
-        return eventRepository.findBySchedule(schedule).stream().map(eventReadMapper::map).collect(Collectors.toList());
+    public List<EventReadDto> findByScheduleId(String id) {
+        return eventRepository.findByScheduleId(id)
+                .stream().map(eventReadMapper::map)
+                .collect(Collectors.toList());
     }
 }
