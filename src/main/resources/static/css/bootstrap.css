@@ -147,7 +147,6 @@ footer img {
 /* JavaScript - event creator window*/
 
 .form {
-  position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
@@ -232,7 +231,7 @@ body {
 }
 
 .scheduleButton {
-  height: 14%;
+  height: 24%;
   margin-bottom: 2px;
 }
 
@@ -7769,8 +7768,14 @@ textarea.form-control-lg {
 }
 
 /* delete button */
-.w-23 {
-  width: 23% !important;
+.w-3 {
+  width: 3% !important;
+}
+
+.deleteForm {
+  justify-content: center;
+  margin-top: 1%;
+  display: flex;
 }
 
 .deleteButton {

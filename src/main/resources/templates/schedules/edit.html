@@ -11,7 +11,7 @@
 <!--Edit & Delete schedule-->
 
 <!--/*@thymesVar id="schedule" type="ua.nicety.database.entity.Schedule"*/-->
-<form th:action="@{'/schedules/' + ${schedule.id} + '/edit'}" th:method="post" th:object="${schedule}">
+<form th:action="@{'/schedules/' + ${schedule.id} + '/edit'}" method="post" th:object="${schedule}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">

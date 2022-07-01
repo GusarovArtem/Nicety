@@ -47,7 +47,6 @@
                     <input name="smiles" th:value="*{smiles}" type="text" class="form-control" id="floatingSmile" placeholder="Smiles" />
                     <label for="floatingSmile">Smiles</label>
                 </div>
-                <input type="text" name="scheduleId" th:value="*{scheduleId}" hidden>
             </div>
 
             <div th:if="${errors}">
@@ -61,14 +60,18 @@
     </div>
 </form>
 
-<!-- Delete event-->
-<form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id}}" method="post">
-    <button class="w-23 deleteButton btn btn-lg btn-primary " type="submit">
-        <img src="/static/images/delete.png" width="25" height="25" alt=""/>
-    </button>
-</form>
-
 <script src="/js/main.js"></script>
+
+<div>
+    <!-- Delete event-->
+    <form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id}}" method="post" class="form deleteForm">
+        <button class="w-23 btn btn-lg btn-primary " type="submit">
+            <img src="/static/images/delete.png" width="25" height="25" alt=""/>
+        </button>
+    </form>
+</div>
+
+
 
 </body>
 </html>

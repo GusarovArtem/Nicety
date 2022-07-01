@@ -99,7 +99,7 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedules/"+ scheduleId + "/events/" + id;
+            return "redirect:/schedules/" + scheduleId + "/events/"  + id + "/edit" ;
         }
 
         event.setScheduleId(scheduleId);

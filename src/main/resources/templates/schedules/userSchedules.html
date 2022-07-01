@@ -28,7 +28,7 @@
                     </tr>
                     <th:block th:each="element : ${mapEvents.value}">
                         <th th:rowspan="${element.value.size}+1" th:text="${element.key.value}">Day</th>
-                        <tr th:each="event : ${element.value}">
+                        <tr th:each="event : ${element.value}" th:styleappend="'background-color: ' + ${event.color}">
                             <td><a th:text="${event.name}" th:href="'/schedules/' + ${mapEvents.key} + '/events/' + ${event.id} + '/edit' " class="editEventLink"/></td>
                             <td  th:text="${event.time}"></td>
                             <td  th:text="${event.smiles}"></td>
