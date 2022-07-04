@@ -27,19 +27,22 @@
                 <th:block th:each="element : ${mapEvents}">
                     <th th:rowspan="${element.value.size}+1" th:text="${element.key.value}">Day</th>
                     <tr th:each="event : ${element.value}" th:styleappend="'background-color: ' + ${event.color}">
-                        <td><a th:text="${event.name}" th:href="'/schedules/' + ${schedule.id} + '/events/' + ${event.id} + '/edit' " class="editEventLink"/></td>
-                        <td  th:text="${event.time}"></td>
-                        <td  th:text="${event.smiles}"></td>
+                        <td class="has-details">
+                            <a th:href="'/schedules/' + ${schedule.id} + '/events/' + ${event.id} + '/edit' " class="editEventLink" th:text="${event.name}"></a>
+                            <span class="details">
+                                <div th:insert="/parts/desriptionPopup :: descriptionPopup"></div>
+                            </span>
+                        </td>
+                        <td th:text="${event.time}"></td>
+                        <td th:text="${event.smiles}"></td>
                     </tr>
                 </th:block>
-
             </table>
 
         </form>
 
         <div>
-            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create
-                Event</a>
+            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create Event</a>
             <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
 
             <!-- Delete Schedule -->

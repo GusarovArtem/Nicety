@@ -1,0 +1,13 @@
+<div th:fragment="descriptionPopup">
+    <div th:id="${event.id}" class="description-popup">
+        <div class="description-popup-content">
+            <div class="description-popup-header">
+                <h7 style="margin-top: 0; font-size: 1.7rem;" class="center">Event Description</h7>
+            </div>
+            <div class="description-popup-body">
+                <a th:text="${event.description}"></a>
+            </div>
+
+        </div>
+    </div>
+</div>

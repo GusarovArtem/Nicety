@@ -217,7 +217,125 @@ footer img {
   text-align: center;
 }
 
-/* JavaScript - event creator window*/
+/* Show Event Description popup */
+
+.description-popup {
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.back {
+  color: #524f4f;
+  font-size: 40px;
+  font-weight: bold;
+  margin-right: auto;
+}
+
+.back:hover,
+.close:focus {
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.description-popup-header {
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  font-size: 20px;
+  background-color: #e1a881;
+  color: #ffffff;
+  display: flex;
+  padding: 4px 20px;
+  flex-direction: column-reverse;
+}
+
+.description-popup-body {
+  padding: 15px 20px;
+}
+
+.description-popup-footer {
+  padding: 2px 16px;
+  color: white;
+  margin: 15px;
+  text-align: center;
+}
+
+.description-popup-content {
+  border-radius: 40px;
+  background-color: #fcc39c;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 9%;
+  padding: 0;
+  border: 1px solid #000;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* Has details */
+
+.has-details {
+  color: #ffffff;
+  text-decoration: auto;
+  position: relative;
+}
+
+.editEventLink {
+  color: white;
+  text-decoration: none;
+}
+
+.editEventLink:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.details {
+  position: absolute;
+  top: 0;
+  transform: translateX(27%) scale(0);
+  transition: transform 0.1s ease-in;
+  transform-origin: left;
+  display: inline;
+  z-index: 20;
+  min-width: 100%;
+  padding: 1rem;
+  border-radius: 25px;
+}
+
+.has-details:hover span {
+  color: #000000;
+  text-decoration: none;
+  transform: translateX(200%) scale(1);
+}
+
+td {
+  padding: 1rem;
+  background: whitesmoke;
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+
+/* Form */
 
 .form {
   z-index: 1;
@@ -277,16 +395,6 @@ footer img {
   box-shadow: 0 4px 8px 0 #FFDEAD, 0 6px 20px 0 #FFDAB9;
 }
 
-.editEventLink {
-  color: #ffffff;
-  text-decoration: auto;
-}
-
-.editEventLink:hover {
-  color: #000000;
-  text-decoration: auto;
-}
-
 /* Body */
 
 body {
@@ -308,7 +416,7 @@ body {
 }
 
 .schedule-name-text {
-  font-size: 40px;
+  font-size: 30px;
   display: inline-flex;
   margin-top: 23px;
 }
