@@ -13,35 +13,13 @@
 
 <div class="mainContainer">
 
-    <form th:action="@{/schedules/}" method="get" th:object="${mapSchedules}">
-        <div th:each="mapEvents,iter : ${mapSchedules}">
-            <a th:field="${schedules}" class="schedule-name" th:href="@{/schedules/{id}(id=${mapEvents.key})}" th:text="${schedules.get(iter.index).name}"/>
-
-            <div class="center">
-
-                <table class="schedule">
-                    <tr>
-                        <th>Day</th>
-                        <th>Name</th>
-                        <th>Time</th>
-                        <th>🎯</th>
-                    </tr>
-                    <th:block th:each="element : ${mapEvents.value}">
-                        <th th:rowspan="${element.value.size}+1" th:text="${element.key.value}">Day</th>
-                        <tr th:each="event : ${element.value}" th:styleappend="'background-color: ' + ${event.color}">
-                            <td><a th:text="${event.name}" th:href="'/schedules/' + ${mapEvents.key} + '/events/' + ${event.id} + '/edit' " class="editEventLink"/></td>
-                            <td  th:text="${event.time}"></td>
-                            <td  th:text="${event.smiles}"></td>
-                        </tr>
-                    </th:block>
-
-                </table>
-
-            </div><br><br>
+    <form th:action="@{/schedules/}" method="get" th:object="${schedules}">
+        <div th:each="schedule, iter : ${schedules}">
+            <a class="btn-schedule-name form-schedule-name btn-primary schedule-name-text" th:href="@{/schedules/{id}(id=${schedules.get(iter.index).id})}" th:text="${schedules.get(iter.index).name}"/>
         </div>
     </form>
 
-    <a href="/schedules/new" class="btn btn-primary scheduleButton">Create Schedule</a>
+    <a href="/schedules/new" class="btn btn-primary-schedule-create">Create Schedule</a>
 
 </div>
 
