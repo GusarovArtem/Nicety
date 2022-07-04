@@ -14,12 +14,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+import static ua.nicety.service.PdfGeneratorService.DEST;
+
 
 @RequiredArgsConstructor
 @Service
 public class MailService {
-
-    public static final String DEST = "schedule.pdf";
 
     private final Properties emailProperties;
 

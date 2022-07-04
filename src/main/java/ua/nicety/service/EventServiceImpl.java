@@ -3,8 +3,8 @@ package ua.nicety.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
-import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
@@ -12,9 +12,10 @@ import ua.nicety.http.mapper.EventCreateEditMapper;
 import ua.nicety.http.mapper.read.EventReadMapper;
 import ua.nicety.service.interfaces.EventService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +60,14 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByScheduleId(id)
                 .stream().map(eventReadMapper::map)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
+        List<EventReadDto> events = findByScheduleId(scheduleId);
+        return events.stream()
+                .sorted(Comparator.comparing((EventReadDto event) -> event.getDay().ordinal())
+                        .thenComparing(EventReadDto::getTime))
+                .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
     }
 }
