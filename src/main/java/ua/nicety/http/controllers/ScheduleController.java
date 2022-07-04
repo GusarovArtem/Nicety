@@ -46,7 +46,7 @@ public class ScheduleController {
 
         Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(scheduleId);
         pdfGeneratorService.generatePdf(mapEvents, schedule.getName());
-        mailService.sendEmail(user.getUsername());
+        //mailService.sendEmail(user.getUsername());
         return "redirect:/schedules/" + scheduleId;
     }
 
