@@ -12,20 +12,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
-
 import ua.nicety.database.entity.User;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.service.MailService;
+import ua.nicety.service.PdfGeneratorService;
 import ua.nicety.service.interfaces.EventService;
 import ua.nicety.service.interfaces.ScheduleService;
 import ua.nicety.service.interfaces.UserService;
-import java.util.Comparator;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/schedules")
@@ -36,11 +35,19 @@ public class ScheduleController {
     private final UserService userService;
     private final ScheduleService scheduleService;
     private final MailService mailService;
+    private final PdfGeneratorService pdfGeneratorService;
 
-    @PostMapping(value = "/mail")
-    public String sendPdfViaEmail(@AuthenticationPrincipal UserDetails user) {
+    @GetMapping(value = "/{id}/mail")
+    public String sendPdfViaEmail(@AuthenticationPrincipal UserDetails user,
+                                  @PathVariable("id") String scheduleId) {
+
+        ScheduleReadDto schedule = scheduleService.findById(scheduleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(scheduleId);
+        pdfGeneratorService.generatePdf(mapEvents, schedule.getName());
         mailService.sendEmail(user.getUsername());
-        return "redirect:/main";
+        return "redirect:/schedules/" + scheduleId;
     }
 
 
@@ -51,15 +58,10 @@ public class ScheduleController {
         Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
         List<ScheduleReadDto> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
 
-        for (ScheduleReadDto schedule : schedules) {
-            List<EventReadDto> events = eventService.findByScheduleId(schedule.getId());
-
-            Map<Day, List<EventReadDto>> mapEvents = events.stream()
-                    .sorted(Comparator.comparing(EventReadDto::getTime))
-                    .collect(Collectors.groupingBy(EventReadDto::getDay));
-
+        schedules.stream().forEach(schedule -> {
+            Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(schedule.getId());
             mapSchedules.put(schedule.getId(), mapEvents);
-        }
+        });
 
         model.addAttribute("mapSchedules", mapSchedules);
         model.addAttribute("schedules", schedules);
@@ -75,11 +77,8 @@ public class ScheduleController {
 
         ScheduleReadDto schedule = scheduleService.findById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        List<EventReadDto> events = eventService.findByScheduleId(schedule.getId());
 
-        Map<Day, List<EventReadDto>> mapEvents = events.stream()
-                .sorted(Comparator.comparing(EventReadDto::getTime))
-                .collect(Collectors.groupingBy(EventReadDto::getDay));
+        Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(schedule.getId());
 
         model.addAttribute("mapEvents", mapEvents);
         model.addAttribute("schedule", schedule);

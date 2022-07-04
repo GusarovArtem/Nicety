@@ -38,9 +38,9 @@
         </form>
 
         <div>
-            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create
-                Event</a>
+            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create Event</a>
             <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
+            <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/mail'">Get in PDF by email</a>
 
             <!-- Delete Schedule -->
             <form th:action="@{'/schedules/' + ${schedule.id}}" method="post">

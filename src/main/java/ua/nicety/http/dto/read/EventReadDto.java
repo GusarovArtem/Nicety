@@ -25,4 +25,5 @@ public class EventReadDto {
     Day day;
 
     LocalTime time;
+
 }
