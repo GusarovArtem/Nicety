@@ -13,4 +13,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM event e where e.schedule_id = :scheduleId")
     List<Event> findByScheduleId(String scheduleId);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM event e where e.name = :name")
+    List<Event> findAllByName(String name);
 }

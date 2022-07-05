@@ -2,7 +2,6 @@ package ua.nicety.service.interfaces;
 
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
-import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 
@@ -19,5 +18,6 @@ public interface EventService {
     Optional<Event> findById(Long id);
     List<EventReadDto> findByScheduleId(String id);
 
-    Map<Day, List<EventReadDto>> getMapEvents(String id);
+    Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId);
+    Map<Day, List<EventReadDto>> getMapEvents(String scheduleId);
 }

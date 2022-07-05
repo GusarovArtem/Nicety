@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<header>
-    <link rel="shortcut icon" href="/static/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
     <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
     <title>Nicety | Schedule</title>
-</header>
+</head>
 
 <body>
 
@@ -42,13 +42,13 @@
         </form>
 
         <div>
-            <a th:href="'/schedules/' + ${schedule.id} + '/events/new'" class="btn btn-primary scheduleButton">Create Event</a>
-            <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
-            <a class="btn btn-primary scheduleButton" th:href="'/schedules/' + ${schedule.id} + '/mail'">Get in PDF by email</a>
+            <a class="btn btn-primary" th:href="'/schedules/' + ${schedule.id} + '/events/new'">Create Event</a>
+            <a class="btn btn-primary" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
+            <a class="btn btn-primary" th:href="'/schedules/' + ${schedule.id} + '/mail'">Get in PDF by email</a>
 
             <!-- Delete Schedule -->
             <form th:action="@{'/schedules/' + ${schedule.id}}" method="post">
-                <button class="w-3 deleteButton btn btn-lg btn-primary " type="submit">
+                <button class="deleteButton btn btn-lg btn-primary " type="submit">
                     <img src="/static/images/delete.png" width="25" height="25" alt=""/>
                 </button>
             </form>

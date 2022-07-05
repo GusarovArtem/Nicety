@@ -73,12 +73,19 @@ public class ScheduleController {
     @GetMapping("/{id}")
     public String userSchedule(
             @PathVariable("id") String scheduleId,
+            @RequestParam(required = false, defaultValue = "") String filter,
             Model model) {
 
         ScheduleReadDto schedule = scheduleService.findById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(schedule.getId());
+        Map<Day, List<EventReadDto>> mapEvents;
+
+        if (filter != null && !filter.isEmpty()) {
+             mapEvents = eventService.findAllByName(filter, schedule.getId());
+        } else {
+            mapEvents = eventService.getMapEvents(schedule.getId());
+        }
 
         model.addAttribute("mapEvents", mapEvents);
         model.addAttribute("schedule", schedule);

@@ -63,6 +63,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId) {
+        List<EventReadDto> events = findByScheduleId(scheduleId);
+        return events.stream()
+                .filter(eventReadDto -> eventReadDto.getName().equals(name))
+                .sorted(Comparator.comparing((EventReadDto event) -> event.getDay().ordinal())
+                        .thenComparing(EventReadDto::getTime))
+                .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
+    }
+
+    @Override
     public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
