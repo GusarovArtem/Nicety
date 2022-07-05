@@ -12,7 +12,7 @@
 
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
-                            <a href="/static" class="nav-link text-white center">
+                            <a href="/" class="nav-link text-white center">
                                 <img class="ml-10" src="/images/home.png" alt="" width="45" height="45"><br>
                                 <svg width="0" height="0">
                                     <use xlink:href="/"></use>
@@ -56,7 +56,7 @@
         <div class="px-3 py-2 border-bottom mb-3">
             <div class="container d-flex flex-wrap justify-content-center">
                 <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-                    <input type="search" name="filter" th:value="${filter}" class="form-control" id="floatingInput" placeholder="Search..." aria-label="Search">
+                    <input type="search" name="filter" th:value="${filter}" class="form-control" id="floatingInput" placeholder="Search event by name" aria-label="Search">
                 </form>
                 <a type="button" href="/schedules/new" style="margin-right: 5px" class="btn btn-primary">Create Schedule</a>
                 <form th:action="@{/logout}" method="post">
