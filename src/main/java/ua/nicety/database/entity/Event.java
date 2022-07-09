@@ -35,4 +35,5 @@ public class Event {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
+    private boolean notify;
 }
