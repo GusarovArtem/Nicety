@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.mail;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfContentByte;

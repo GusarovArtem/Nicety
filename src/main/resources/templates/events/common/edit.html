@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
     <title>Nicety | Edit Event</title>
 </head>
 
@@ -66,7 +66,7 @@
     <!-- Delete event-->
     <form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id}}" method="post" class="form deleteForm">
         <button class="w-23 btn btn-lg btn-primary " type="submit">
-            <img src="/static/images/delete.png" width="25" height="25" alt=""/>
+            <img src="/images/delete.png" width="25" height="25" alt=""/>
         </button>
     </form>
 </div>

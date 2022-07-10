@@ -35,8 +35,4 @@ public class Event {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @Enumerated(EnumType.STRING)
-    private EventType type;
-
-    private boolean notify;
 }

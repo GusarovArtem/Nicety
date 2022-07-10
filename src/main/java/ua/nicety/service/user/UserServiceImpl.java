@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

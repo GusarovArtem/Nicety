@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.schedule;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

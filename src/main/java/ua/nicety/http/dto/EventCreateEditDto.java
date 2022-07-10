@@ -1,5 +1,6 @@
 package ua.nicety.http.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import ua.nicety.http.validation.annotation.ScheduleValidate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -31,6 +33,11 @@ public class EventCreateEditDto {
 
     @NotNull(message = "Please write time of the event")
     LocalTime time;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime dateTime;
+
+    private boolean notify;
 
     @ScheduleValidate
     String scheduleId;

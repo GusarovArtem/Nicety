@@ -2,7 +2,7 @@ package ua.nicety.http.validation;
 
 import lombok.RequiredArgsConstructor;
 import ua.nicety.http.validation.annotation.ScheduleValidate;
-import ua.nicety.service.ScheduleService;
+import ua.nicety.service.schedule.ScheduleService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

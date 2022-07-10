@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.schedule;
 
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;

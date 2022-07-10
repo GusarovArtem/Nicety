@@ -1,12 +1,14 @@
 package ua.nicety.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
-@ToString(exclude = "author")
+@ToString(exclude = "schedule")
 @EqualsAndHashCode(callSuper=false, of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,10 +28,11 @@ public class Goal {
 
     private String smiles;
 
-    private LocalDateTime time;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime dateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private User author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
 }

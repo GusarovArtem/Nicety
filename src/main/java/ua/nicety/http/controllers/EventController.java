@@ -26,18 +26,6 @@ public class EventController {
 
     private final EventUtil eventUtil;
 
-    //  Show schedule event
-    @GetMapping("/{id}")
-    public String scheduleEvent(
-            @PathVariable("id") Event event,
-            Model model) {
-
-        EventService commonEventService = eventUtil.getEventService("common");
-        model.addAttribute("user", commonEventService.findById(event.getId()));
-
-        return "events/scheduleEvent";
-    }
-
     //  Create event
     @GetMapping("/new")
     public String create(

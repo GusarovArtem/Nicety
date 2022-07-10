@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.mail;
 
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
-import static ua.nicety.service.PdfGeneratorService.DEST;
+import static ua.nicety.service.schedule.PdfGeneratorService.DEST;
 
 
 @RequiredArgsConstructor

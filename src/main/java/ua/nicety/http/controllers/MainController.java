@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
-import ua.nicety.service.UserService;
+import ua.nicety.service.user.UserService;
 
 @RequiredArgsConstructor
 @Controller
