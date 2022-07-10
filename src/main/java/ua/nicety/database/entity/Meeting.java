@@ -3,16 +3,16 @@ package ua.nicety.database.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Data
-@ToString(exclude = "schedule")
+@ToString(exclude = "author")
 @EqualsAndHashCode(callSuper=false, of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Event {
+public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,17 +26,10 @@ public class Event {
 
     private String smiles;
 
-    @Enumerated(EnumType.STRING)
-    private Day day;
+    private LocalDateTime time;
 
-    private LocalTime time;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
-
-    @Enumerated(EnumType.STRING)
-    private EventType type;
-
-    private boolean notify;
 }

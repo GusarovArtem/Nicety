@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
-import ua.nicety.service.interfaces.UserService;
+import ua.nicety.service.UserService;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,7 +25,7 @@ public class MainController {
         User user = userService.getByEmail(userDetails.getUsername());
 
         if(user.getSchedules().size() == 1 ) {
-            Schedule schedule = user.getSchedules().stream().findAny().get();
+            Schedule schedule = user.getSchedules().get(0);
             return "redirect:/schedules/" + schedule.getId();
 //      Select the schedule
         } else if (user.getSchedules().size() > 1 ) {

@@ -13,7 +13,8 @@ import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.service.interfaces.EventService;
+import ua.nicety.service.event.EventService;
+import ua.nicety.service.event.EventUtil;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -23,15 +24,16 @@ import java.util.Optional;
 @RequestMapping("/schedules/{scheduleId}/events")
 public class EventController {
 
-    private final EventService eventService;
+    private final EventUtil eventUtil;
 
     //  Show schedule event
     @GetMapping("/{id}")
     public String scheduleEvent(
             @PathVariable("id") Event event,
-            Model model,
-            @PathVariable String scheduleId) {
-        model.addAttribute("user", eventService.findById(event.getId()));
+            Model model) {
+
+        EventService commonEventService = eventUtil.getEventService("common");
+        model.addAttribute("user", commonEventService.findById(event.getId()));
 
         return "events/scheduleEvent";
     }
@@ -64,7 +66,9 @@ public class EventController {
         }
         event.setScheduleId(scheduleId);
 
-        eventService.create(event);
+        EventService commonEventService = eventUtil.getEventService("common");
+
+        commonEventService.create(event);
         return "redirect:/schedules/" + scheduleId;
     }
 
@@ -75,9 +79,9 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
+        EventService commonEventService = eventUtil.getEventService("common");
 
-        Event event =  eventService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Event event = (Event) commonEventService.findById(id).orElseThrow();
 
         Schedule schedule = new Schedule();
         schedule.setId(scheduleId);
@@ -104,9 +108,9 @@ public class EventController {
         }
 
         event.setScheduleId(scheduleId);
+        EventService eventService = eventUtil.getEventService("common");
 
-        eventService.update(id, event)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        eventService.update(id, event);
 
         return "redirect:/schedules/" + scheduleId;
     }
@@ -117,7 +121,7 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
-
+        EventService eventService = eventUtil.getEventService("common");
         if (!eventService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

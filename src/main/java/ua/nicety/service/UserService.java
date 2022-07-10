@@ -1,4 +1,4 @@
-package ua.nicety.service.interfaces;
+package ua.nicety.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;

@@ -10,7 +10,6 @@ import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.http.mapper.ScheduleCreateEditMapper;
 import ua.nicety.http.mapper.read.ScheduleReadMapper;
-import ua.nicety.service.interfaces.ScheduleService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ScheduleServiceImpl implements ScheduleService {
+public class CommonScheduleService implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleCreateEditMapper scheduleCreateEditMapper;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.service.interfaces.ScheduleService;
+import ua.nicety.service.ScheduleService;
 
 @Component
 @RequiredArgsConstructor
