@@ -17,11 +17,11 @@ import ua.nicety.database.entity.User;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
+import ua.nicety.service.event.CommonEventService;
 import ua.nicety.service.mail.MailService;
-import ua.nicety.service.schedule.PdfGeneratorService;
+import ua.nicety.service.mail.PdfGeneratorService;
 import ua.nicety.service.schedule.ScheduleService;
 import ua.nicety.service.user.UserService;
-import ua.nicety.service.event.GoalEventService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class ScheduleController {
 
     @Qualifier("common")
-    private final GoalEventService eventService;
+    private final CommonEventService eventService;
 
     private final UserService userService;
     private final ScheduleService scheduleService;
@@ -61,7 +61,7 @@ public class ScheduleController {
         Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
         List<ScheduleReadDto> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
 
-        schedules.stream().forEach(schedule -> {
+        schedules.forEach(schedule -> {
             Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(schedule.getId());
             mapSchedules.put(schedule.getId(), mapEvents);
         });

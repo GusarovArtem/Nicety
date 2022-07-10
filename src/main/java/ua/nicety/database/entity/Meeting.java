@@ -13,27 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Meeting {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
-
-    private String description;
-
-    private String color;
-
-    private String smiles;
+public class Meeting extends BaseEvent {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateTime;
 
     private boolean notify;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.nicety.database.entity.BaseEvent;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
@@ -67,9 +68,9 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
-        EventService commonEventService = eventUtil.getEventService("common");
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService("common");
 
-        Event event = (Event) commonEventService.findById(id).orElseThrow();
+        BaseEvent event = eventService.findById(id).orElseThrow();
 
         Schedule schedule = new Schedule();
         schedule.setId(scheduleId);

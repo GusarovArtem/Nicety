@@ -12,27 +12,12 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Event {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
-
-    private String description;
-
-    private String color;
-
-    private String smiles;
+public class Event extends BaseEvent {
 
     @Enumerated(EnumType.STRING)
     private Day day;
 
     private LocalTime time;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
 
 }
