@@ -1,4 +1,4 @@
-package ua.nicety.service;
+package ua.nicety.service.event;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,16 +10,15 @@ import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
 import ua.nicety.http.mapper.read.EventReadMapper;
-import ua.nicety.service.interfaces.EventService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
-@Service
+@Service("common")
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class CommonEventService implements EventService {
 
     private final EventRepository eventRepository;
     private final EventCreateEditMapper eventCreateEditMapper;

@@ -5,7 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper=false, of = "id")
@@ -30,7 +32,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "author")
-    List<Schedule> schedules = new ArrayList<>();
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private List<Goal> goals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private List<Meeting> meetings = new ArrayList<>();
 
 }

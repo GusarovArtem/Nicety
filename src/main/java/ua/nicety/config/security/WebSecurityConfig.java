@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import ua.nicety.service.interfaces.UserService;
+import ua.nicety.service.UserService;
 
 @EnableMethodSecurity
 @RequiredArgsConstructor

@@ -1,6 +1,7 @@
 package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +19,10 @@ import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.service.MailService;
 import ua.nicety.service.PdfGeneratorService;
-import ua.nicety.service.interfaces.EventService;
-import ua.nicety.service.interfaces.ScheduleService;
-import ua.nicety.service.interfaces.UserService;
+import ua.nicety.service.ScheduleService;
+import ua.nicety.service.UserService;
+import ua.nicety.service.event.CommonEventService;
+import ua.nicety.service.event.EventService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final EventService eventService;
+    @Qualifier("common")
+    private final CommonEventService eventService;
+
     private final UserService userService;
     private final ScheduleService scheduleService;
     private final MailService mailService;

@@ -13,9 +13,10 @@ import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.service.interfaces.EventService;
+import ua.nicety.service.event.EventService;
 
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,14 +24,15 @@ import java.util.Optional;
 @RequestMapping("/schedules/{scheduleId}/events")
 public class EventController {
 
-    private final EventService eventService;
+    private final Map<String,EventService> eventServices;
 
     //  Show schedule event
     @GetMapping("/{id}")
     public String scheduleEvent(
             @PathVariable("id") Event event,
-            Model model,
-            @PathVariable String scheduleId) {
+            Model model) {
+
+        EventService eventService = eventServices.get("common");
         model.addAttribute("user", eventService.findById(event.getId()));
 
         return "events/scheduleEvent";
@@ -64,6 +66,8 @@ public class EventController {
         }
         event.setScheduleId(scheduleId);
 
+        EventService eventService = eventServices.get("common");
+
         eventService.create(event);
         return "redirect:/schedules/" + scheduleId;
     }
@@ -75,6 +79,8 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
+
+        EventService eventService = eventServices.get("common");
 
         Event event =  eventService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -104,6 +110,7 @@ public class EventController {
         }
 
         event.setScheduleId(scheduleId);
+        EventService eventService = eventServices.get("common");
 
         eventService.update(id, event)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -117,7 +124,7 @@ public class EventController {
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("id") Long id
     ) {
-
+        EventService eventService = eventServices.get("common");
         if (!eventService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

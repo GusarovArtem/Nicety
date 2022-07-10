@@ -15,7 +15,6 @@ import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.UserRepository;
 import ua.nicety.http.dto.UserCreateEditDto;
 import ua.nicety.http.mapper.UserCreateEditMapper;
-import ua.nicety.service.interfaces.UserService;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

@@ -1,4 +1,4 @@
-package ua.nicety.service.interfaces;
+package ua.nicety.service.event;
 
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
