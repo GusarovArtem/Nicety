@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CommonEventService implements EventService<Event, EventReadDto, EventCreateEditDto> {
 
-    private final EventRepository eventRepository;
+    private final EventRepository<Event> commonEventRepository;
     private final EventCreateEditMapper eventCreateEditMapper;
 
     private final EventReadMapper eventReadMapper;
@@ -29,21 +29,21 @@ public class CommonEventService implements EventService<Event, EventReadDto, Eve
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
                 .map(eventCreateEditMapper::map)
-                .map(eventRepository::save).orElse(null);
+                .map(commonEventRepository::save).orElse(null);
     }
 
     @Transactional
     public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
-        return eventRepository.findById(id)
+        return commonEventRepository.findById(id)
                 .map(entity -> eventCreateEditMapper.map(eventDto, entity))
-                .map(eventRepository::saveAndFlush);
+                .map(commonEventRepository::saveAndFlush);
     }
 
     @Transactional
     public boolean delete(Long id) {
-        return eventRepository.findById(id)
+        return commonEventRepository.findById(id)
                 .map(entity -> {
-                    eventRepository.deleteById(id);
+                    commonEventRepository.deleteById(id);
                     return true;
                 })
                 .orElse(false);
@@ -51,13 +51,13 @@ public class CommonEventService implements EventService<Event, EventReadDto, Eve
 
     @Override
     public Optional<Event> findById(Long id) {
-        return eventRepository.findById(id);
+        return commonEventRepository.findById(id);
     }
 
 
     @Override
     public List<EventReadDto> findByScheduleId(String id) {
-        return eventRepository.findByScheduleId(id)
+        return commonEventRepository.findByScheduleId(id)
                 .stream().map(eventReadMapper::map)
                 .collect(Collectors.toList());
     }
