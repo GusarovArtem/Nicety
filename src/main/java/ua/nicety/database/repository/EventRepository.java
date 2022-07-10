@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface EventRepository<E> extends JpaRepository<E, Long>  {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM E where E.schedule_id = :scheduleId")
+    @Query(nativeQuery = true, value = "SELECT * FROM E e where e.schedule_id = :scheduleId")
     List<E> findByScheduleId(String scheduleId);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM E where E.name = :name")
+    @Query(nativeQuery = true, value = "SELECT * FROM E e where e.name = :name")
     List<E> findAllByName(String name);
 }

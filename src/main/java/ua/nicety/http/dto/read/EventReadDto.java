@@ -6,6 +6,7 @@ import ua.nicety.database.entity.Day;
 import ua.nicety.http.validation.annotation.ScheduleValidate;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Builder
@@ -25,5 +26,9 @@ public class EventReadDto {
     Day day;
 
     LocalTime time;
+
+    boolean notify;
+
+    LocalDateTime dateTime;
 
 }
