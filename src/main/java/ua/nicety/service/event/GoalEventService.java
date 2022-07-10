@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Event;
+import ua.nicety.database.entity.Goal;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
@@ -16,24 +16,24 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
-@Service("common")
+@Service("goal")
 @RequiredArgsConstructor
-public class CommonEventService implements EventService<Event, EventReadDto> {
+public class GoalEventService implements EventService<Goal, EventReadDto> {
 
-    private final EventRepository<Event> repository;
-    private final EventCreateEditMapper<Event> createEditMapper;
+    private final EventRepository<Goal> repository;
+    private final EventCreateEditMapper<Goal> createEditMapper;
 
-    private final EventReadMapper<Event> readMapper;
+    private final EventReadMapper<Goal> readMapper;
 
 
-    public Event create(EventCreateEditDto eventDto) {
+    public Goal create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
                 .map(createEditMapper::map)
                 .map(repository::save).orElse(null);
     }
 
     @Transactional
-    public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
+    public Optional<Goal> update(Long id, EventCreateEditDto eventDto) {
         return repository.findById(id)
                 .map(entity -> createEditMapper.map(eventDto, entity))
                 .map(repository::saveAndFlush);
@@ -50,7 +50,7 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
     }
 
     @Override
-    public Optional<Event> findById(Long id) {
+    public Optional<Goal> findById(Long id) {
         return repository.findById(id);
     }
 
