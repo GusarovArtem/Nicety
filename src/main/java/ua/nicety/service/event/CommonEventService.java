@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Service("common")
 @RequiredArgsConstructor
-public class CommonEventService implements EventService<Event, EventReadDto, EventCreateEditDto> {
+public class CommonEventService implements EventService<Event, EventReadDto> {
 
     private final EventRepository<Event> commonEventRepository;
     private final EventCreateEditMapper eventCreateEditMapper;
