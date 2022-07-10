@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Create Goal</title>
+</head>
+
+<!--Create new goal-->
+
+<body>
+
+<!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
+<form th:action="@{'/schedules/' + ${scheduleId} + '/goal-events/new'}" method="post" th:object="${goal}">
+
+</form>
+
+</body>
+</html>

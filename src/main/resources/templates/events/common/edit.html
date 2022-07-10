@@ -11,7 +11,7 @@
 <!--Edit event-->
 
 <!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
-<form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id} + '/edit'}" method="post" th:object="${event}">
+<form th:action="@{'/schedules/' + ${event.schedule.id} + '/common-events/' + ${event.id} + '/edit'}" method="post" th:object="${event}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">
@@ -64,7 +64,7 @@
 
 <div>
     <!-- Delete event-->
-    <form th:action="@{'/schedules/' + ${event.schedule.id} + '/events/' + ${event.id}}" method="post" class="form deleteForm">
+    <form th:action="@{'/schedules/' + ${event.schedule.id} + '/common-events/' + ${event.id}}" method="post" class="form deleteForm">
         <button class="w-23 btn btn-lg btn-primary " type="submit">
             <img src="/images/delete.png" width="25" height="25" alt=""/>
         </button>
