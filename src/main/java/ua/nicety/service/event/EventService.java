@@ -1,23 +1,25 @@
 package ua.nicety.service.event;
 
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Event;
-import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.read.EventReadDto;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface EventService {
 
-    Event create(EventCreateEditDto eventCreateEditDto);
-    Optional<Event> update(Long id, EventCreateEditDto eventCreateEditDto);
+public interface EventService<E, ReadDto, CreateDto> {
+
+    E create(CreateDto eventCreateEditDto);
+
+    Optional<E> update(Long id, CreateDto eventCreateEditDto);
+
     boolean delete(Long id);
 
-    Optional<Event> findById(Long id);
-    List<EventReadDto> findByScheduleId(String id);
+    Optional<E> findById(Long id);
 
-    Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId);
-    Map<Day, List<EventReadDto>> getMapEvents(String scheduleId);
+    List<ReadDto> findByScheduleId(String id);
+
+    Map<Day, List<ReadDto>> findAllByName(String name, String scheduleId);
+
+    Map<Day, List<ReadDto>> getMapEvents(String scheduleId);
 }
