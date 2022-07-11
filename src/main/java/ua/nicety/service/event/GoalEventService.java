@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.Goal;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.read.EventReadDto;
+import ua.nicety.http.dto.read.GoalReadDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
-import ua.nicety.http.mapper.read.EventReadMapper;
+import ua.nicety.http.mapper.read.GoalReadMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 
 @Service("goal")
 @RequiredArgsConstructor
-public class GoalEventService implements EventService<Goal, EventReadDto> {
+public class GoalEventService implements EventService<Goal, GoalReadDto> {
 
     private final EventRepository<Goal> repository;
     private final EventCreateEditMapper<Goal> createEditMapper;
 
-    private final EventReadMapper<Goal> readMapper;
+    private final GoalReadMapper readMapper;
 
 
     public Goal create(EventCreateEditDto eventDto) {
@@ -57,24 +57,24 @@ public class GoalEventService implements EventService<Goal, EventReadDto> {
 
 
     @Override
-    public List<EventReadDto> findByScheduleId(String id) {
+    public List<GoalReadDto> findByScheduleId(String id) {
         return repository.findByScheduleId(id)
                 .stream().map(readMapper::map)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Map<LocalDateTime, List<EventReadDto>> findAllByName(String name, String scheduleId) {
-        List<EventReadDto> events = findByScheduleId(scheduleId);
+    public Map<LocalDateTime, List<GoalReadDto>> findAllByName(String name, String scheduleId) {
+        List<GoalReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
-                .filter(eventReadDto -> eventReadDto.getName().equals(name))
+                .filter(readDto -> readDto.getName().equals(name))
                 .sorted()
                 .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
     }
 
     @Override
-    public Map<LocalDateTime, List<EventReadDto>> getMapEvents(String scheduleId) {
-        List<EventReadDto> events = findByScheduleId(scheduleId);
+    public Map<LocalDateTime, List<GoalReadDto>> getMapEvents(String scheduleId) {
+        List<GoalReadDto> events = findByScheduleId(scheduleId);
 
         return events.stream()
                 .sorted()

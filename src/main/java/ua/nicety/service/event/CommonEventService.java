@@ -23,7 +23,7 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
     private final EventRepository<Event> repository;
     private final EventCreateEditMapper<Event> createEditMapper;
 
-    private final EventReadMapper<Event> readMapper;
+    private final EventReadMapper readMapper;
 
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
