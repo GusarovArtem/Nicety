@@ -4,14 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Event;
-import ua.nicety.database.entity.Role;
-import ua.nicety.database.entity.User;
+import ua.nicety.database.entity.event.Event;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
-import ua.nicety.http.dto.UserCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 
 import java.util.*;
@@ -23,7 +19,7 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CommonEventService implements EventService<Event, EventReadDto> {
 
-    private final EventRepository repository;
+    private final EventRepository<Event> repository;
     private final ModelMapper modelMapper;
 
     public Event create(EventCreateEditDto eventDto) {
@@ -66,6 +62,7 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
@@ -75,6 +72,7 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                 .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
     }
 
+    @Override
     public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
