@@ -2,7 +2,7 @@ package ua.nicety.service.event;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ua.nicety.database.entity.BaseEvent;
+import ua.nicety.database.entity.event.BaseEvent;
 
 @Component
 @RequiredArgsConstructor

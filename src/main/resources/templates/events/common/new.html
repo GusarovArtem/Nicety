@@ -10,7 +10,7 @@
 
 <body>
 
-<!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
+<!--/*@thymesVar id="event" type="ua.nicety.database.entity.event.Event"*/-->
 <form th:action="@{'/schedules/' + ${scheduleId} + '/common-events/new'}" method="post" th:object="${event}">
     <div id="form" class="form">
         <div class="form-content">

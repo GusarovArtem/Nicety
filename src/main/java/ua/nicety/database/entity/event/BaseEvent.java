@@ -1,8 +1,9 @@
-package ua.nicety.database.entity;
+package ua.nicety.database.entity.event;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.nicety.database.entity.Schedule;
 
 import javax.persistence.*;
 

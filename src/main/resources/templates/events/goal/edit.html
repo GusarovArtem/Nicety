@@ -10,7 +10,7 @@
 
 <!--Edit goal-->
 
-<!--/*@thymesVar id="goal" type="ua.nicety.database.entity.Goal"*/-->
+<!--/*@thymesVar id="goal" type="ua.nicety.database.entity.event.Goal"*/-->
 <form th:action="@{'/schedules/' + ${goal.schedule.id} + '/goal-events/' + ${goal.id} + '/edit'}" method="post" th:object="${goal}">
 
 </form>

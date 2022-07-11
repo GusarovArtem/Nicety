@@ -1,6 +1,6 @@
 package ua.nicety.service.event;
 
-import ua.nicety.database.entity.BaseEvent;
+import ua.nicety.database.entity.event.BaseEvent;
 import ua.nicety.http.dto.EventCreateEditDto;
 
 import java.util.List;

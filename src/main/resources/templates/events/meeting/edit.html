@@ -10,7 +10,7 @@
 
 <!--Edit meeting-->
 
-<!--/*@thymesVar id="meeting" type="ua.nicety.database.entity.Meeting"*/-->
+<!--/*@thymesVar id="meeting" type="ua.nicety.database.entity.event.Meeting"*/-->
 <form th:action="@{'/schedules/' + ${meeting.schedule.id} + '/meeting-events/' + ${meeting.id} + '/edit'}" method="post" th:object="${meeting}">
 
 </form>

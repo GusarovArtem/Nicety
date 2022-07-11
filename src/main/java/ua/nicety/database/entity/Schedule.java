@@ -1,6 +1,7 @@
 package ua.nicety.database.entity;
 
 import lombok.*;
+import ua.nicety.database.entity.event.Event;
 
 import javax.persistence.*;
 import java.util.ArrayList;

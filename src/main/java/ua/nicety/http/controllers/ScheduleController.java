@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.nicety.database.entity.BaseEvent;
+import ua.nicety.database.entity.event.BaseEvent;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.User;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
