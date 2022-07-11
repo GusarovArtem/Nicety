@@ -1,7 +1,6 @@
 package ua.nicety.service.event;
 
 import ua.nicety.database.entity.BaseEvent;
-import ua.nicety.database.entity.Day;
 import ua.nicety.http.dto.EventCreateEditDto;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public interface EventService<E extends BaseEvent, R> {
 
     List<R> findByScheduleId(String id);
 
-    Map<Day, List<R>> findAllByName(String name, String scheduleId);
+    Map<?, List<R>> findAllByName(String name, String scheduleId);
 
-    Map<Day, List<R>> getMapEvents(String scheduleId);
+    Map<?, List<R>> getMapEvents(String scheduleId);
 }

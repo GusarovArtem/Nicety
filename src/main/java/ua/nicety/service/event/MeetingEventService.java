@@ -3,7 +3,6 @@ package ua.nicety.service.event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Meeting;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
@@ -11,10 +10,12 @@ import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.mapper.EventCreateEditMapper;
 import ua.nicety.http.mapper.read.EventReadMapper;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @Service("goal")
 @RequiredArgsConstructor
@@ -63,21 +64,20 @@ public class MeetingEventService implements EventService<Meeting, EventReadDto> 
     }
 
     @Override
-    public Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId) {
+    public Map<LocalDateTime, List<EventReadDto>> findAllByName(String name, String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
                 .filter(eventReadDto -> eventReadDto.getName().equals(name))
-                .sorted(Comparator.comparing((EventReadDto event) -> event.getDay().ordinal())
-                        .thenComparing(EventReadDto::getTime))
-                .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
+                .sorted()
+                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
     }
 
     @Override
-    public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
+    public Map<LocalDateTime, List<EventReadDto>> getMapEvents(String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
+
         return events.stream()
-                .sorted(Comparator.comparing((EventReadDto event) -> event.getDay().ordinal())
-                        .thenComparing(EventReadDto::getTime))
-                .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
+                .sorted()
+                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
     }
 }

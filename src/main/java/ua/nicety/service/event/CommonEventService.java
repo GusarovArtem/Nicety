@@ -25,7 +25,6 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
 
     private final EventReadMapper<Event> readMapper;
 
-
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
                 .map(createEditMapper::map)
@@ -62,7 +61,6 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
@@ -72,7 +70,6 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                 .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
     }
 
-    @Override
     public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
