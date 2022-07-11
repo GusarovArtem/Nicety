@@ -1,7 +1,6 @@
 package ua.nicety.http.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +11,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.nicety.database.entity.BaseEvent;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.User;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
-import ua.nicety.service.event.CommonEventService;
+import ua.nicety.service.event.*;
 import ua.nicety.service.mail.MailService;
 import ua.nicety.service.mail.PdfGeneratorService;
 import ua.nicety.service.schedule.ScheduleService;
@@ -32,60 +32,70 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    @Qualifier("common")
-    private final CommonEventService eventService;
+    private final EventUtil eventUtil;
 
     private final UserService userService;
+    private final CommonEventService commonEventService;
+    private final GoalEventService goalEventService;
+    private final MeetingEventService meetingEventService;
     private final ScheduleService scheduleService;
     private final MailService mailService;
     private final PdfGeneratorService pdfGeneratorService;
 
-    @GetMapping(value = "/{id}/mail")
-    public String sendPdfViaEmail(@AuthenticationPrincipal UserDetails user,
-                                  @PathVariable("id") String scheduleId) {
+    @GetMapping(value = "/{id}/{event-type}-events/mail")
+    public String sendPdfViaEmail(
+            @AuthenticationPrincipal UserDetails user,
+            @PathVariable("id") String scheduleId,
+            @PathVariable("event-type") String eventType
+    ) {
 
         ScheduleReadDto schedule = scheduleService.findById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(scheduleId);
+        Map<Day, List<EventReadDto>> mapEvents = commonEventService.getMapEvents(scheduleId);
         pdfGeneratorService.generatePdf(mapEvents, schedule.getName());
         //mailService.sendEmail(user.getUsername());
-        return "redirect:/schedules/" + scheduleId;
+        return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
 
 //  Show all user schedules
-    @GetMapping
-    public String userSchedules(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    @GetMapping("/")
+    public String userSchedules(
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model
+    ) {
 
         Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
         List<ScheduleReadDto> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
 
         schedules.forEach(schedule -> {
-            Map<Day, List<EventReadDto>> mapEvents = eventService.getMapEvents(schedule.getId());
+            Map<Day, List<EventReadDto>> mapEvents = commonEventService.getMapEvents(schedule.getId());
             mapSchedules.put(schedule.getId(), mapEvents);
         });
 
         model.addAttribute("mapSchedules", mapSchedules);
         model.addAttribute("schedules", schedules);
 
-        return "schedules/userSchedules";
+        return "schedules/common/userSchedules";
     }
 
   //  Show user schedule
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/{event-type}-events")
     public String userSchedule(
             @PathVariable("id") String scheduleId,
+            @PathVariable("event-type") String eventType,
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model) {
 
         ScheduleReadDto schedule = scheduleService.findById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Map<Day, List<EventReadDto>> mapEvents;
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
+        Map<?, ? extends List<?>> mapEvents;
 
         if (filter != null && !filter.isEmpty()) {
-             mapEvents = eventService.findAllByName(filter, schedule.getId());
+            mapEvents = eventService.findAllByName(filter, schedule.getId());
         } else {
             mapEvents = eventService.getMapEvents(schedule.getId());
         }
@@ -93,27 +103,31 @@ public class ScheduleController {
         model.addAttribute("mapEvents", mapEvents);
         model.addAttribute("schedule", schedule);
 
-        return "schedules/userSchedule";
+        return "schedules/"+ eventType +"/userSchedule";
     }
 
 //  Create new Schedule
-    @GetMapping("/new")
-    public String newSchedule(@ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
+    @GetMapping("/new/{event-type}-events")
+    public String newSchedule(
+            @ModelAttribute("schedule") ScheduleCreateEditDto schedule,
+            @PathVariable("event-type") String eventType
+    ) {
 
-        return "schedules/new";
+        return "schedules/" + eventType + "/new";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/new/{event-type}-events")
     public String create(
             @AuthenticationPrincipal UserDetails userDetails,
             @Validated ScheduleCreateEditDto schedule,
+            @PathVariable("event-type") String eventType,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedules/new";
+            return "redirect:/schedules/new/" + eventType + "-events";
         }
         final User user = userService.getByEmail(userDetails.getUsername());
         schedule.setAuthor(user);
@@ -123,29 +137,34 @@ public class ScheduleController {
     }
 
     //  Edit & update schedule
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") String id) {
+    @GetMapping("/{id}/edit/{event-type}-events")
+    public String edit(
+            Model model,
+            @PathVariable("id") String id,
+            @PathVariable("event-type") String eventType
+    ) {
 
         ScheduleReadDto schedule =  scheduleService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         model.addAttribute("schedule", schedule);
 
-        return "schedules/edit";
+        return "schedules/" + eventType  + "/edit";
     }
 
-    @PostMapping("/{id}/edit")
+    @PostMapping("/{id}/edit/{event-type}-events")
     public String update(
             @AuthenticationPrincipal UserDetails userDetails,
             @Validated ScheduleCreateEditDto schedule,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
-            @PathVariable(value="id") String id
+            @PathVariable(value="id") String id,
+            @PathVariable(value="event-type") String eventType
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedules/"+ id + "/edit";
+            return "redirect:/schedules/" + id + "/edit/" + eventType + "-events";
         }
 
         final User user = userService.getByEmail(userDetails.getUsername());
@@ -154,7 +173,7 @@ public class ScheduleController {
         scheduleService.update(id, schedule)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return "redirect:/schedules/" + id;
+        return "redirect:/schedules/" + id + "/" + eventType + "-events";
     }
 
     //  Delete schedule

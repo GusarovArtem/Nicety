@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Edit Meeting</title>
+</head>
+
+<body>
+
+<!--Edit meeting-->
+
+<!--/*@thymesVar id="meeting" type="ua.nicety.database.entity.Meeting"*/-->
+<form th:action="@{'/schedules/' + ${meeting.schedule.id} + '/meeting-events/' + ${meeting.id} + '/edit'}" method="post" th:object="${meeting}">
+
+</form>
+
+<script src="/js/main.js"></script>
+
+<div>
+    <!-- Delete meeting-->
+    <form th:action="@{'/schedules/' + ${meeting.schedule.id} + '/common-events/' + ${meeting.id}}" method="post">
+
+    </form>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Edit Schedule</title>
+</head>
+
+<body>
+
+<!--Edit goal-schedule-->
+
+<!--/*@thymesVar id="schedule" type="ua.nicety.database.entity.Schedule"*/-->
+<form th:action="@{'/schedules/' + ${schedule.id} + '/goal-events/edit'}" method="post" th:object="${schedule}">
+
+</form>
+
+</body>
+</html>

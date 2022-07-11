@@ -20,30 +20,29 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CommonEventService implements EventService<Event, EventReadDto> {
 
-    private final EventRepository<Event> commonEventRepository;
-    private final EventCreateEditMapper eventCreateEditMapper;
+    private final EventRepository<Event> repository;
+    private final EventCreateEditMapper<Event> createEditMapper;
 
-    private final EventReadMapper eventReadMapper;
-
+    private final EventReadMapper readMapper;
 
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
-                .map(eventCreateEditMapper::map)
-                .map(commonEventRepository::save).orElse(null);
+                .map(createEditMapper::map)
+                .map(repository::save).orElse(null);
     }
 
     @Transactional
     public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
-        return commonEventRepository.findById(id)
-                .map(entity -> eventCreateEditMapper.map(eventDto, entity))
-                .map(commonEventRepository::saveAndFlush);
+        return repository.findById(id)
+                .map(entity -> createEditMapper.map(eventDto, entity))
+                .map(repository::saveAndFlush);
     }
 
     @Transactional
     public boolean delete(Long id) {
-        return commonEventRepository.findById(id)
+        return repository.findById(id)
                 .map(entity -> {
-                    commonEventRepository.deleteById(id);
+                    repository.deleteById(id);
                     return true;
                 })
                 .orElse(false);
@@ -51,18 +50,17 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
 
     @Override
     public Optional<Event> findById(Long id) {
-        return commonEventRepository.findById(id);
+        return repository.findById(id);
     }
 
 
     @Override
     public List<EventReadDto> findByScheduleId(String id) {
-        return commonEventRepository.findByScheduleId(id)
-                .stream().map(eventReadMapper::map)
+        return repository.findByScheduleId(id)
+                .stream().map(readMapper::map)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Map<Day, List<EventReadDto>> findAllByName(String name, String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()
@@ -72,7 +70,6 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                 .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
     }
 
-    @Override
     public Map<Day, List<EventReadDto>> getMapEvents(String scheduleId) {
         List<EventReadDto> events = findByScheduleId(scheduleId);
         return events.stream()

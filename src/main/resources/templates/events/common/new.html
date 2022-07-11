@@ -11,7 +11,7 @@
 <body>
 
 <!--/*@thymesVar id="event" type="ua.nicety.database.entity.Event"*/-->
-<form th:action="@{'/schedules/' + ${scheduleId} + '/events/new'}" method="post" th:object="${event}">
+<form th:action="@{'/schedules/' + ${scheduleId} + '/common-events/new'}" method="post" th:object="${event}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">
@@ -47,7 +47,7 @@
                     <input name="smiles" th:value="*{smiles}" type="text" class="form-control" id="floatingSmile" placeholder="Smiles" />
                     <label for="floatingSmile">Smiles</label>
                 </div>
-                <input type="text" name="scheduleId" th:value="*{scheduleId}" hidden>
+                <input type="text" name="scheduleId" th:value="*{scheduleId}" hidden />
             </div>
 
             <div th:if="${errors}">

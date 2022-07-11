@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.BaseEvent;
 import ua.nicety.database.entity.Day;
-import ua.nicety.database.entity.Event;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.service.event.EventService;
@@ -22,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/schedules/{scheduleId}/events")
+@RequestMapping("/schedules/{scheduleId}/{event-type}-events")
 public class EventController {
 
     private final EventUtil eventUtil;
@@ -31,19 +30,24 @@ public class EventController {
     @GetMapping("/new")
     public String create(
             @PathVariable(value="scheduleId") String scheduleId,
+            @PathVariable(value="event-type") String eventType,
             @ModelAttribute("event") EventCreateEditDto event,
             Model model
     ) {
         Optional.ofNullable(scheduleId).ifPresent(event::setScheduleId);
 
-        model.addAttribute("days", Day.values());
+        if (eventType.equals("common")) {
+            model.addAttribute("days", Day.values());
+        }
+
         model.addAttribute("event", event);
-        return "events/new";
+        return "events/" + eventType +  "/new";
     }
 
     @PostMapping("/new")
     public String add(
             @PathVariable(value="scheduleId") String scheduleId,
+            @PathVariable(value="event-type") String eventType,
             @ModelAttribute @Validated EventCreateEditDto event,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
@@ -51,14 +55,14 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedules/" + scheduleId  +"/events/new";
+            return "redirect:/schedules/" + scheduleId  +"/" + eventType + "-events/new";
         }
         event.setScheduleId(scheduleId);
 
-        EventService commonEventService = eventUtil.getEventService("common");
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
 
-        commonEventService.create(event);
-        return "redirect:/schedules/" + scheduleId;
+        eventService.create(event);
+        return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
     //  Edit & update event
@@ -66,9 +70,10 @@ public class EventController {
     public String edit(
             Model model,
             @PathVariable("scheduleId") String scheduleId,
+            @PathVariable("event-type") String eventType,
             @PathVariable("id") Long id
     ) {
-        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService("common");
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
 
         BaseEvent event = eventService.findById(id).orElseThrow();
 
@@ -76,15 +81,18 @@ public class EventController {
         schedule.setId(scheduleId);
         event.setSchedule(schedule);
 
-        model.addAttribute("days", Day.values());
-        model.addAttribute("event", event);
+        if (eventType.equals("common")) {
+            model.addAttribute("days", Day.values());
+        }
 
-        return "events/edit";
+        model.addAttribute("event", event);
+        return "events/" + eventType +  "/edit";
     }
 
     @PostMapping("/{id}/edit")
     public String update(
             @PathVariable(value="scheduleId") String scheduleId,
+            @PathVariable(value="event-type") String eventType,
             @PathVariable(value="id") Long id,
             @Valid EventCreateEditDto event,
             BindingResult bindingResult,
@@ -93,28 +101,29 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("event", event);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/schedules/" + scheduleId + "/events/"  + id + "/edit" ;
+            return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events/"  + id + "/edit" ;
         }
 
         event.setScheduleId(scheduleId);
-        EventService eventService = eventUtil.getEventService("common");
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
 
         eventService.update(id, event);
 
-        return "redirect:/schedules/" + scheduleId;
+        return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
     //  Delete event
     @PostMapping("/{id}")
     public String delete(
             @PathVariable("scheduleId") String scheduleId,
+            @PathVariable("event-type") String eventType,
             @PathVariable("id") Long id
     ) {
-        EventService eventService = eventUtil.getEventService("common");
+        EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
         if (!eventService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        return "redirect:/schedules/" + scheduleId;
+        return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 }

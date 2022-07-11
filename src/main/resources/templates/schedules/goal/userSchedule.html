@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Schedule</title>
+</head>
+
+<body>
+
+<div th:insert="parts/main-header :: main-header"></div>
+
+<!--Show user goal-schedule-->
+
+<main class="text-center">
+
+    <div class="mainContainer ">
+        <form th:action="@{/schedules/{id}(id=${schedule.id})/goal-events}" method="get" th:object="${schedule}">
+
+        </form>
+
+        <!-- Delete Schedule -->
+        <div>
+
+            <form th:action="@{'/schedules/' + ${schedule.id} + '/goal-events'}" method="post">
+
+            </form>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
