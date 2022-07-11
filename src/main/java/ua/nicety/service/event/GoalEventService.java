@@ -20,64 +20,98 @@ import java.util.stream.Collectors;
 @Service("goal")
 @RequiredArgsConstructor
 public class GoalEventService implements EventService<Goal, GoalReadDto> {
-
-    private final EventRepository<Goal> repository;
-    private final EventCreateEditMapper<Goal> createEditMapper;
-
-    private final GoalReadMapper readMapper;
-
-
-    public Goal create(EventCreateEditDto eventDto) {
-        return Optional.of(eventDto)
-                .map(createEditMapper::map)
-                .map(repository::save).orElse(null);
+    @Override
+    public Goal create(EventCreateEditDto eventCreateEditDto) {
+        return null;
     }
 
-    @Transactional
-    public Optional<Goal> update(Long id, EventCreateEditDto eventDto) {
-        return repository.findById(id)
-                .map(entity -> createEditMapper.map(eventDto, entity))
-                .map(repository::saveAndFlush);
+    @Override
+    public Optional<Goal> update(Long id, EventCreateEditDto eventCreateEditDto) {
+        return Optional.empty();
     }
 
-    @Transactional
+    @Override
     public boolean delete(Long id) {
-        return repository.findById(id)
-                .map(entity -> {
-                    repository.deleteById(id);
-                    return true;
-                })
-                .orElse(false);
+        return false;
     }
 
     @Override
     public Optional<Goal> findById(Long id) {
-        return repository.findById(id);
+        return Optional.empty();
     }
-
 
     @Override
     public List<GoalReadDto> findByScheduleId(String id) {
-        return repository.findByScheduleId(id)
-                .stream().map(readMapper::map)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
-    public Map<LocalDateTime, List<GoalReadDto>> findAllByName(String name, String scheduleId) {
-        List<GoalReadDto> events = findByScheduleId(scheduleId);
-        return events.stream()
-                .filter(readDto -> readDto.getName().equals(name))
-                .sorted()
-                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
+    public Map<?, List<GoalReadDto>> findAllByName(String name, String scheduleId) {
+        return null;
     }
 
     @Override
-    public Map<LocalDateTime, List<GoalReadDto>> getMapEvents(String scheduleId) {
-        List<GoalReadDto> events = findByScheduleId(scheduleId);
-
-        return events.stream()
-                .sorted()
-                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
+    public Map<?, List<GoalReadDto>> getMapEvents(String scheduleId) {
+        return null;
     }
+
+//    private final EventRepository<Goal> repository;
+//    private final EventCreateEditMapper createEditMapper;
+//
+//    private final GoalReadMapper readMapper;
+//
+//
+//    public Goal create(EventCreateEditDto eventDto) {
+//        return Optional.of(eventDto)
+//                .map(createEditMapper::map)
+//                .map(repository::save).orElse(null);
+//    }
+//
+//    @Transactional
+//    public Optional<Goal> update(Long id, EventCreateEditDto eventDto) {
+//        return repository.findById(id)
+//                .map(entity -> createEditMapper.map(eventDto, entity))
+//                .map(repository::saveAndFlush);
+//    }
+//
+//    @Transactional
+//    public boolean delete(Long id) {
+//        return repository.findById(id)
+//                .map(entity -> {
+//                    repository.deleteById(id);
+//                    return true;
+//                })
+//                .orElse(false);
+//    }
+//
+//    @Override
+//    public Optional<Goal> findById(Long id) {
+//        return repository.findById(id);
+//    }
+//
+//
+//    @Override
+//    public List<GoalReadDto> findByScheduleId(String id) {
+//        return repository.findByScheduleId(id)
+//                .stream().map(readMapper::map)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public Map<LocalDateTime, List<GoalReadDto>> findAllByName(String name, String scheduleId) {
+//        List<GoalReadDto> events = findByScheduleId(scheduleId);
+//        return events.stream()
+//                .filter(readDto -> readDto.getName().equals(name))
+//                .sorted()
+//                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
+//    }
+//
+//    @Override
+//    public Map<LocalDateTime, List<GoalReadDto>> getMapEvents(String scheduleId) {
+//        List<GoalReadDto> events = findByScheduleId(scheduleId);
+//
+//        return events.stream()
+//                .sorted()
+//                .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
+//    }
 }

@@ -1,20 +1,22 @@
 package ua.nicety.service.user;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ua.nicety.config.security.WebSecurityConfig;
 import ua.nicety.database.entity.Role;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.UserRepository;
 import ua.nicety.http.dto.UserCreateEditDto;
-import ua.nicety.http.mapper.UserCreateEditMapper;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -29,13 +31,14 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserCreateEditMapper userCreateEditMapper;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
     public void create(UserCreateEditDto userDto) {
         Optional.of(userDto)
-                .map(userCreateEditMapper::map)
+                .map(createDto -> copyToEntity(createDto))
                 .map( user -> {
                     userRepository.save(user);
                     return user;
@@ -50,7 +53,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean update(Long id, UserCreateEditDto userDto) {
         return userRepository.findById(id)
-                .map(entity -> userCreateEditMapper.map(userDto, entity))
+                .map(entity -> {
+                    User mappedEntity = copyToEntity(userDto);
+                    mappedEntity.setId(entity.getId());
+                    return mappedEntity;
+                })
                 .map(user -> {
                     userRepository.saveAndFlush(user);
                     return true;
@@ -128,6 +135,16 @@ public class UserServiceImpl implements UserService {
                             .map(u -> new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), Collections.singleton(u.getRole())))
                             .orElseThrow();
                 });
+    }
+
+    private User copyToEntity(UserCreateEditDto userDto) {
+        User mappedEntity = modelMapper.map(userDto, User.class);
+        mappedEntity.setRole(Role.USER);
+        Optional.ofNullable(userDto.getRawPassword())
+                .filter(StringUtils::hasText)
+                .map(passwordEncoder::encode)
+                .ifPresent(mappedEntity::setPassword);
+        return mappedEntity;
     }
 
 

@@ -35,10 +35,5 @@ public class User {
     @OneToMany(mappedBy = "author", orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", orphanRemoval = true)
-    private List<Goal> goals = new ArrayList<>();
-
-    @OneToMany(mappedBy = "author", orphanRemoval = true)
-    private List<Meeting> meetings = new ArrayList<>();
 
 }
