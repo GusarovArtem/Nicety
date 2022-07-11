@@ -38,15 +38,10 @@ public class EventController {
 
         if (eventType.equals("common")) {
             model.addAttribute("days", Day.values());
-            model.addAttribute("event", event);
-            return "events/common/new";
-        } else if (eventType.equals("goal")) {
-            model.addAttribute("goal", event);
-            return "events/goal/new";
-        } else {
-            model.addAttribute("meeting", event);
-            return "events/meeting/new";
         }
+
+        model.addAttribute("event", event);
+        return "events/" + eventType +  "/new";
     }
 
     @PostMapping("/new")
@@ -88,15 +83,10 @@ public class EventController {
 
         if (eventType.equals("common")) {
             model.addAttribute("days", Day.values());
-            model.addAttribute("event", event);
-            return "events/common/edit";
-        } else if (eventType.equals("goal")) {
-            model.addAttribute("goal", event);
-            return "events/goal/edit";
-        } else {
-            model.addAttribute("meeting", event);
-            return "events/meeting/edit";
         }
+
+        model.addAttribute("event", event);
+        return "events/" + eventType +  "/edit";
     }
 
     @PostMapping("/{id}/edit")

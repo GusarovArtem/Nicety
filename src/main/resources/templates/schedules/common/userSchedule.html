@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
     <title>Nicety | Schedule</title>
 </head>
 
@@ -10,12 +10,12 @@
 
 <div th:insert="parts/main-header :: main-header"></div>
 
-<!--Show user schedule-->
+<!--Show user common-schedule-->
 
 <main class="text-center">
 
     <div class="mainContainer ">
-        <form th:action="@{/schedules/{id}(id=${schedule.id})}" method="get" th:object="${schedule}">
+        <form th:action="@{/schedules/{id}(id=${schedule.id})/common-events}" method="get" th:object="${schedule}">
 
             <table class="schedule">
                 <tr>
@@ -46,10 +46,10 @@
             <a class="btn btn-primary" th:href="'/schedules/' + ${schedule.id} + '/edit'">Edit Schedule</a>
             <a class="btn btn-primary" th:href="'/schedules/' + ${schedule.id} + '/mail'">Get in PDF by email</a>
 
-            <!-- Delete Schedule -->
-            <form th:action="@{'/schedules/' + ${schedule.id}}" method="post">
+            <!-- Delete common-schedule -->
+            <form th:action="@{'/schedules/' + ${schedule.id}/common-events}" method="post">
                 <button class="deleteButton btn btn-lg btn-primary " type="submit">
-                    <img src="/static/images/delete.png" width="25" height="25" alt=""/>
+                    <img src="/images/delete.png" width="25" height="25" alt=""/>
                 </button>
             </form>
 

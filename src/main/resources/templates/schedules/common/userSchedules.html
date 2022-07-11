@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
     <title>Nicety | Schedules</title>
 </head>
 
-<!--Show all user schedules-->
-
+<!--Show all user common-schedules-->
 
 <body>
 
 <div class="mainContainer">
 
-    <form th:action="@{/schedules/}" method="get" th:object="${schedules}">
+    <form th:action="@{/schedules/common-events}" method="get" th:object="${schedules}">
         <div th:each="schedule, iter : ${schedules}">
             <a class="btn-schedule-name form-schedule-name btn-primary schedule-name-text" th:href="@{/schedules/{id}(id=${schedules.get(iter.index).id})}" th:text="${schedules.get(iter.index).name}"/>
         </div>

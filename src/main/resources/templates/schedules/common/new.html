@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="/images/bookmark-ribbon 2.png" type="image/x-icon" class="icon"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
-    <title>Nicety | Edit Schedule</title>
+    <link rel="shortcut icon" href="/images/bookmark-ribbon%202.png" type="image/x-icon" class="icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css"/>
+    <title>Nicety | Create Schedule</title>
 </head>
 
 <body>
 
-<!--Edit & Delete schedule-->
+<!--Create new common-schedule-->
 
 <!--/*@thymesVar id="schedule" type="ua.nicety.database.entity.Schedule"*/-->
-<form th:action="@{'/schedules/' + ${schedule.id} + '/edit'}" method="post" th:object="${schedule}">
+<form th:action="@{/schedules/common-events/new}" method="post" th:object="${schedule}">
     <div id="form" class="form">
         <div class="form-content">
             <div class="form-header">
-                <h7 class="center">Edit Schedule</h7>
+                <h7 class="center">Create Schedule</h7>
                 <span class="back">←</span>
             </div>
             <div class="form-body">
@@ -30,9 +30,8 @@
             </div>
 
             <div class="form-footer">
-                <button class="w-25 btn btn-lg btn-primary " type="submit">Save</button>
+                <button class="w-25 btn btn-lg btn-primary " type="submit">Create</button>
             </div>
-
         </div>
     </div>
 </form>
