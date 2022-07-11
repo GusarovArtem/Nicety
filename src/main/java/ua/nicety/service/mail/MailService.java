@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
-import static ua.nicety.service.schedule.PdfGeneratorService.DEST;
+import static ua.nicety.service.mail.PdfGeneratorService.DEST;
 
 
 @RequiredArgsConstructor

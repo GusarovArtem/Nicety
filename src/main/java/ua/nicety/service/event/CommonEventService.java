@@ -1,15 +1,18 @@
 package ua.nicety.service.event;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.Event;
+import ua.nicety.database.entity.Role;
+import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.EventRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.UserCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
-import ua.nicety.http.mapper.EventCreateEditMapper;
-import ua.nicety.http.mapper.read.EventReadMapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,21 +23,23 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CommonEventService implements EventService<Event, EventReadDto> {
 
-    private final EventRepository<Event> repository;
-    private final EventCreateEditMapper<Event> createEditMapper;
-
-    private final EventReadMapper readMapper;
+    private final EventRepository repository;
+    private final ModelMapper modelMapper;
 
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
-                .map(createEditMapper::map)
+                .map(createDto -> modelMapper.map(createDto, Event.class))
                 .map(repository::save).orElse(null);
     }
 
     @Transactional
     public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
         return repository.findById(id)
-                .map(entity -> createEditMapper.map(eventDto, entity))
+                .map(entity -> {
+                    Event mappedEntity = modelMapper.map(eventDto, Event.class);
+                    mappedEntity.setId(entity.getId());
+                    return mappedEntity;
+                })
                 .map(repository::saveAndFlush);
     }
 
@@ -57,7 +62,7 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
     @Override
     public List<EventReadDto> findByScheduleId(String id) {
         return repository.findByScheduleId(id)
-                .stream().map(readMapper::map)
+                .stream().map(event -> modelMapper.map(event, EventReadDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -77,4 +82,5 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
                         .thenComparing(EventReadDto::getTime))
                 .collect(groupingBy(EventReadDto::getDay, LinkedHashMap::new, Collectors.toList()));
     }
+
 }
