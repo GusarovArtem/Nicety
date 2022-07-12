@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5444/nicety
+    url: jdbc:postgresql://localhost:5432/nicety
     username: admin
     password: admin
   jpa:
@@ -10,13 +10,14 @@ spring:
         show_sql: true
         format_sql: true
         hbm2ddl.auto: update
+    open-in-view: false
   security:
     oauth2:
       client:
         registration:
           google:
             clientId: 394442828587-rg4pber3p0ra0uiemsj5ouj57rnbau5i.apps.googleusercontent.com
-            clientSecret: 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
+            clientSecret: secret
             redirectUri: http://localhost:8080/login/oauth2/code/google
             scope: openid,email,profile
 
@@ -27,6 +28,5 @@ mail:
   auth: true
   fromEmail: nicety_main@yahoo.com
   appPassword: sfzycofbckaebyhn
-
 
 
