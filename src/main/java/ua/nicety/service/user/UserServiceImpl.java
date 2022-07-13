@@ -38,11 +38,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void create(UserCreateEditDto userDto) {
         Optional.of(userDto)
-                .map(createDto -> copyToEntity(createDto))
+                .map(this::copyToEntity)
                 .map( user -> {
                     userRepository.save(user);
                     return user;
                 });
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userRepository.getById(id);
     }
 
     @Override

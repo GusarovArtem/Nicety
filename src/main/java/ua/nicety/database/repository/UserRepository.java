@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(attributePaths = {"schedules"})
     User getByEmail(String email);
 
+    User getById(Long id);
+
     Optional<User> findByUsername(String name);
 
     void deleteById(Long id);

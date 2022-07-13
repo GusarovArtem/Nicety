@@ -29,6 +29,7 @@ public class EventCreateEditDto {
 
     String color;
 
+    @NotBlank(message = "Please choose the day of the event")
     Day day;
 
     @NotNull(message = "Please write time of the event")

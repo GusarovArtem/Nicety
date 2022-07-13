@@ -11,13 +11,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.nicety.database.entity.event.BaseEvent;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.User;
+import ua.nicety.database.entity.event.BaseEvent;
 import ua.nicety.http.dto.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
-import ua.nicety.service.event.*;
+import ua.nicety.service.event.CommonEventService;
+import ua.nicety.service.event.EventService;
+import ua.nicety.service.event.EventUtil;
 import ua.nicety.service.mail.MailService;
 import ua.nicety.service.mail.PdfGeneratorService;
 import ua.nicety.service.schedule.ScheduleService;
@@ -36,8 +38,6 @@ public class ScheduleController {
 
     private final UserService userService;
     private final CommonEventService commonEventService;
-    private final GoalEventService goalEventService;
-    private final MeetingEventService meetingEventService;
     private final ScheduleService scheduleService;
     private final MailService mailService;
     private final PdfGeneratorService pdfGeneratorService;
@@ -59,9 +59,9 @@ public class ScheduleController {
     }
 
 
-//  Show all user schedules
-    @GetMapping("/")
-    public String userSchedules(
+//  Show all common-schedules
+    @GetMapping("/common-events")
+    public String showAllCommonSchedules(
             @AuthenticationPrincipal UserDetails userDetails,
             Model model
     ) {
@@ -80,9 +80,9 @@ public class ScheduleController {
         return "schedules/common/userSchedules";
     }
 
-  //  Show user schedule
+  //  Show schedule
     @GetMapping("/{id}/{event-type}-events")
-    public String userSchedule(
+    public String showSchedule(
             @PathVariable("id") String scheduleId,
             @PathVariable("event-type") String eventType,
             @RequestParam(required = false, defaultValue = "") String filter,
