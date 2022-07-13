@@ -16,4 +16,5 @@ public interface EventRepository<E extends BaseEvent> extends JpaRepository<E, L
 
     @Query(nativeQuery = true, value = "SELECT * FROM E e where e.name = :name")
     List<E> findAllByName(String name);
+
 }
