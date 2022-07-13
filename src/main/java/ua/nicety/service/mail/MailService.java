@@ -3,6 +3,7 @@ package ua.nicety.service.mail;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ua.nicety.database.entity.event.Meeting;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -23,7 +24,7 @@ public class MailService {
 
     private final Properties emailProperties;
 
-    public void sendEmail(String toEmail) {
+    public void sendSchedulePdf(String toEmail) {
         try {
             String fromEmail = emailProperties.getProperty("fromEmail");
             String yahooAccountAppPassword = emailProperties.getProperty("appPassword");
@@ -60,8 +61,39 @@ public class MailService {
 
     }
 
+    public void sendMeeting(Meeting meeting, String email) {
+        try {
+            String fromEmail = emailProperties.getProperty("fromEmail");
+            String yahooAccountAppPassword = emailProperties.getProperty("appPassword");
+            Session session = Session.getInstance(emailProperties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(fromEmail, yahooAccountAppPassword);
+                }
+            });
+            session.setDebug(true);
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(email));
+
+
+            String body = """
+                    Meeting: %s
+                    Time: %s
+                    Description: %s
+                    """.formatted(meeting.getName(), meeting.getDateTime(),meeting.getDescription());
+            message.setSubject(body);
+            message.setText("Meeting");
+            send(message);
+        } catch (Exception e) {
+            throw new RuntimeException("mail sender failed" + e.getMessage());
+        }
+    }
+
+
     public void send(Message message) throws Exception{
         Transport.send(message);
     }
-
 }

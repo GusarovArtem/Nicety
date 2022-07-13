@@ -2,22 +2,29 @@ package ua.nicety.service.event;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.event.Meeting;
-import ua.nicety.database.repository.EventRepository;
+import ua.nicety.database.repository.MeetingRepository;
 import ua.nicety.http.dto.EventCreateEditDto;
 import ua.nicety.http.dto.read.MeetingReadDto;
+import ua.nicety.service.mail.MailService;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service("meeting")
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MeetingEventService implements EventService<Meeting, MeetingReadDto> {
 
-    private final EventRepository<Meeting> repository;
+    private final MeetingRepository repository;
+    private final MailService mailService;
     private final ModelMapper modelMapper;
 
     public Meeting create(EventCreateEditDto eventDto) {
@@ -76,4 +83,17 @@ public class MeetingEventService implements EventService<Meeting, MeetingReadDto
                 .sorted()
                 .collect(Collectors.groupingBy(LocalDateTime::from, TreeMap::new, Collectors.toList()));
     }
+
+    @Scheduled(cron = "0 * * * * *")
+    public void notifyUsers() {
+        List<Meeting> meetings = repository.findByDateTimeEqualsAndNotifyIsTrue(LocalDateTime.now().plusMinutes(5));
+
+        meetings.forEach((meeting) -> {
+             String email = meeting.getSchedule().getAuthor().getEmail();
+             mailService.sendMeeting(meeting, email);
+        });
+
+    }
+
+
 }

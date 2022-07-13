@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Data
 @ToString(exclude = "schedule")
 @EqualsAndHashCode(callSuper=false, of = "id")
