@@ -9,14 +9,14 @@ import ua.nicety.database.entity.event.BaseEvent;
 public class EventUtil {
 
     private final CommonEventService commonEventService;
-    private final MeetingEventService meetingEventService;
-    private final GoalEventService goalEventService;
+    private final MeetingService meetingService;
+    private final GoalService goalService;
 
     public EventService<? extends BaseEvent, ?> getEventService(String typeEvent){
         return switch (typeEvent) {
             case "common" ->  commonEventService;
-            case "meeting" -> meetingEventService;
-            case "goal" ->    goalEventService;
+            case "meeting" -> meetingService;
+            case "goal" ->    goalService;
             default -> null;
         };
     }

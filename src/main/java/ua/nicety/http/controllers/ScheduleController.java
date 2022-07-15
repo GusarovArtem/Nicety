@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.entity.event.BaseEvent;
-import ua.nicety.http.dto.ScheduleCreateEditDto;
+import ua.nicety.http.dto.createEdit.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 import ua.nicety.service.event.CommonEventService;

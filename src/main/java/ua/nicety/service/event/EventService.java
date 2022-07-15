@@ -1,7 +1,7 @@
 package ua.nicety.service.event;
 
 import ua.nicety.database.entity.event.BaseEvent;
-import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.createEdit.EventCreateEditDto;
 
 import java.util.List;
 import java.util.Map;

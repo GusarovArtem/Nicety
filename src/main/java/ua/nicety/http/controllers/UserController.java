@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.nicety.http.dto.UserCreateEditDto;
+import ua.nicety.http.dto.createEdit.UserCreateEditDto;
 import ua.nicety.service.user.UserServiceImpl;
 
 import javax.validation.Valid;

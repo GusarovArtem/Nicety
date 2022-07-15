@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.Schedule;
 import ua.nicety.database.entity.User;
 import ua.nicety.database.repository.ScheduleRepository;
-import ua.nicety.http.dto.ScheduleCreateEditDto;
+import ua.nicety.http.dto.createEdit.ScheduleCreateEditDto;
 import ua.nicety.http.dto.read.ScheduleReadDto;
 
 import java.util.List;
@@ -21,11 +21,6 @@ public class CommonScheduleService implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ModelMapper modelMapper;
-
-    @Override
-    public Schedule getById(String id) {
-        return scheduleRepository.findById(id).orElse(null);
-    }
 
     @Override
     public Optional<ScheduleReadDto> findById(String id) {
@@ -69,4 +64,3 @@ public class CommonScheduleService implements ScheduleService {
                 .orElse(false);
     }
 }
-

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.Day;
 import ua.nicety.database.entity.event.Event;
 import ua.nicety.database.repository.EventRepository;
-import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.createEdit.EventCreateEditDto;
 import ua.nicety.http.dto.read.EventReadDto;
 
 import java.util.*;
@@ -19,31 +19,31 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CommonEventService implements EventService<Event, EventReadDto> {
 
-    private final EventRepository<Event> repository;
+    private final EventRepository<Event> eventRepository;
     private final ModelMapper modelMapper;
 
     public Event create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
                 .map(createDto -> modelMapper.map(createDto, Event.class))
-                .map(repository::save).orElse(null);
+                .map(eventRepository::save).orElse(null);
     }
 
     @Transactional
     public Optional<Event> update(Long id, EventCreateEditDto eventDto) {
-        return repository.findById(id)
+        return eventRepository.findById(id)
                 .map(entity -> {
                     Event mappedEntity = modelMapper.map(eventDto, Event.class);
                     mappedEntity.setId(entity.getId());
                     return mappedEntity;
                 })
-                .map(repository::saveAndFlush);
+                .map(eventRepository::saveAndFlush);
     }
 
     @Transactional
     public boolean delete(Long id) {
-        return repository.findById(id)
+        return eventRepository.findById(id)
                 .map(entity -> {
-                    repository.deleteById(id);
+                    eventRepository.deleteById(id);
                     return true;
                 })
                 .orElse(false);
@@ -51,13 +51,13 @@ public class CommonEventService implements EventService<Event, EventReadDto> {
 
     @Override
     public Optional<Event> findById(Long id) {
-        return repository.findById(id);
+        return eventRepository.findById(id);
     }
 
 
     @Override
     public List<EventReadDto> findByScheduleId(String id) {
-        return repository.findByScheduleId(id)
+        return eventRepository.findByScheduleId(id)
                 .stream().map(event -> modelMapper.map(event, EventReadDto.class))
                 .collect(Collectors.toList());
     }

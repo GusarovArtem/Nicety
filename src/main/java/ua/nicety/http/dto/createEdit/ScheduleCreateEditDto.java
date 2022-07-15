@@ -1,4 +1,4 @@
-package ua.nicety.http.dto;
+package ua.nicety.http.dto.createEdit;
 
 import lombok.AccessLevel;
 import lombok.Data;

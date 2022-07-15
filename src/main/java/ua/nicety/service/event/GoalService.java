@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.nicety.database.entity.event.Goal;
 import ua.nicety.database.repository.EventRepository;
-import ua.nicety.http.dto.EventCreateEditDto;
+import ua.nicety.http.dto.createEdit.EventCreateEditDto;
 import ua.nicety.http.dto.read.GoalReadDto;
 
 import java.time.LocalDateTime;
@@ -15,33 +15,33 @@ import java.util.stream.Collectors;
 
 @Service("goal")
 @RequiredArgsConstructor
-public class GoalEventService implements EventService<Goal, GoalReadDto> {
+public class GoalService implements EventService<Goal, GoalReadDto> {
 
-    private final EventRepository<Goal> repository;
+    private final EventRepository<Goal> eventRepository;
     private final ModelMapper modelMapper;
 
     public Goal create(EventCreateEditDto eventDto) {
         return Optional.of(eventDto)
                 .map(createDto -> modelMapper.map(createDto, Goal.class))
-                .map(repository::save).orElse(null);
+                .map(eventRepository::save).orElse(null);
     }
 
     @Transactional
     public Optional<Goal> update(Long id, EventCreateEditDto eventDto) {
-        return repository.findById(id)
+        return eventRepository.findById(id)
                 .map(entity -> {
                     Goal mappedEntity = modelMapper.map(eventDto, Goal.class);
                     mappedEntity.setId(entity.getId());
                     return mappedEntity;
                 })
-                .map(repository::saveAndFlush);
+                .map(eventRepository::saveAndFlush);
     }
 
     @Transactional
     public boolean delete(Long id) {
-        return repository.findById(id)
+        return eventRepository.findById(id)
                 .map(entity -> {
-                    repository.deleteById(id);
+                    eventRepository.deleteById(id);
                     return true;
                 })
                 .orElse(false);
@@ -49,12 +49,12 @@ public class GoalEventService implements EventService<Goal, GoalReadDto> {
 
     @Override
     public Optional<Goal> findById(Long id) {
-        return repository.findById(id);
+        return eventRepository.findById(id);
     }
 
     @Override
     public List<GoalReadDto> findByScheduleId(String id) {
-        return repository.findByScheduleId(id)
+        return eventRepository.findByScheduleId(id)
                 .stream().map(event -> modelMapper.map(event, GoalReadDto.class))
                 .collect(Collectors.toList());
     }

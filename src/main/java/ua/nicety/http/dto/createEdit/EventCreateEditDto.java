@@ -1,4 +1,4 @@
-package ua.nicety.http.dto;
+package ua.nicety.http.dto.createEdit;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
