@@ -49,7 +49,7 @@ public class ScheduleController {
             @PathVariable("event-type") String eventType
     ) {
 
-        ScheduleReadDto schedule = scheduleService.findById(scheduleId)
+        ScheduleReadDto schedule = scheduleService.getById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Map<Day, List<EventReadDto>> mapEvents = commonEventService.getMapEvents(scheduleId);
@@ -58,8 +58,6 @@ public class ScheduleController {
         return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
-
-//  Show all common-schedules
     @GetMapping("/common-events")
     public String showAllCommonSchedules(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -67,7 +65,7 @@ public class ScheduleController {
     ) {
 
         Map<String, Map<Day, List<EventReadDto>>> mapSchedules = new HashMap<>();
-        List<ScheduleReadDto> schedules = scheduleService.findAllByAuthor(userService.getByEmail(userDetails.getUsername()));
+        List<ScheduleReadDto> schedules = scheduleService.getAllByAuthor(userService.getByEmail(userDetails.getUsername()));
 
         schedules.forEach(schedule -> {
             Map<Day, List<EventReadDto>> mapEvents = commonEventService.getMapEvents(schedule.getId());
@@ -80,7 +78,6 @@ public class ScheduleController {
         return "schedules/common/userSchedules";
     }
 
-  //  Show schedule
     @GetMapping("/{id}/{event-type}-events")
     public String showSchedule(
             @PathVariable("id") String scheduleId,
@@ -88,7 +85,7 @@ public class ScheduleController {
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model) {
 
-        ScheduleReadDto schedule = scheduleService.findById(scheduleId)
+        ScheduleReadDto schedule = scheduleService.getById(scheduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         EventService<? extends BaseEvent, ?> eventService = eventUtil.getEventService(eventType);
@@ -106,7 +103,6 @@ public class ScheduleController {
         return "schedules/"+ eventType +"/userSchedule";
     }
 
-//  Create new Schedule
     @GetMapping("/new/{event-type}-events")
     public String newSchedule(
             @ModelAttribute("schedule") ScheduleCreateEditDto schedule,
@@ -117,7 +113,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/new/{event-type}-events")
-    public String create(
+    public String createSchedule(
             @AuthenticationPrincipal UserDetails userDetails,
             @Validated ScheduleCreateEditDto schedule,
             @PathVariable("event-type") String eventType,
@@ -136,15 +132,14 @@ public class ScheduleController {
         return "redirect:/main";
     }
 
-    //  Edit & update schedule
     @GetMapping("/{id}/edit/{event-type}-events")
-    public String edit(
+    public String editSchedule(
             Model model,
             @PathVariable("id") String id,
             @PathVariable("event-type") String eventType
     ) {
 
-        ScheduleReadDto schedule =  scheduleService.findById(id)
+        ScheduleReadDto schedule =  scheduleService.getById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         model.addAttribute("schedule", schedule);
@@ -153,7 +148,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/{id}/edit/{event-type}-events")
-    public String update(
+    public String updateSchedule(
             @AuthenticationPrincipal UserDetails userDetails,
             @Validated ScheduleCreateEditDto schedule,
             BindingResult bindingResult,
@@ -176,9 +171,8 @@ public class ScheduleController {
         return "redirect:/schedules/" + id + "/" + eventType + "-events";
     }
 
-    //  Delete schedule
     @PostMapping("/{id}")
-    public String delete(
+    public String deleteSchedule(
             @PathVariable("id") String id
     ) {
 

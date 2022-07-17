@@ -1,6 +1,7 @@
 package ua.nicety.http.dto.createEdit;
 
 import lombok.Value;
+import ua.nicety.http.validation.annotation.UserEmailDuplicateValidate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ public class UserCreateEditDto {
     @NotBlank
     String rawPassword;
 
+    @UserEmailDuplicateValidate
     @Email(message = "Please write your email")
     @Email(message = "Please write a valid email")
     String email;

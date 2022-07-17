@@ -12,7 +12,4 @@ public interface UserService extends UserDetailsService, OAuth2UserService<OidcU
 
     User getById(Long id);
     User getByEmail(String email);
-    boolean update(Long id, UserCreateEditDto userDto);
-    boolean delete(Long id);
-
 }

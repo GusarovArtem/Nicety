@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class MainController {
 
-//  What the site can
+//  What we can
     @GetMapping("/")
-    public String home() {
+    public String showHomePage() {
         return "home";
     }
 
 //  Select common, goal and meeting schedule
     @GetMapping("/main")
-    public String main() {
+    public String showMainPage() {
         return "main";
     }
 

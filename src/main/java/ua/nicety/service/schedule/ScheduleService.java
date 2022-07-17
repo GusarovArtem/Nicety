@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface ScheduleService {
 
-    Optional<ScheduleReadDto> findById(String id);
-    List<ScheduleReadDto> findAllByAuthor(User User);
+    Optional<ScheduleReadDto> getById(String id);
+    List<ScheduleReadDto> getAllByAuthor(User User);
 
     Optional<ScheduleReadDto> create(ScheduleCreateEditDto scheduleCreateEditDto);
     Optional<ScheduleReadDto> update(String id, ScheduleCreateEditDto scheduleCreateEditDto);

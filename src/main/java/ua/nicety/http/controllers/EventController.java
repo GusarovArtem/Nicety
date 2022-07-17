@@ -26,9 +26,8 @@ public class EventController {
 
     private final EventUtil eventUtil;
 
-    //  Create event
     @GetMapping("/new")
-    public String create(
+    public String newEvent(
             @PathVariable(value="scheduleId") String scheduleId,
             @PathVariable(value="event-type") String eventType,
             @ModelAttribute("event") EventCreateEditDto event,
@@ -45,7 +44,7 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public String add(
+    public String createEvent(
             @PathVariable(value="scheduleId") String scheduleId,
             @PathVariable(value="event-type") String eventType,
             @ModelAttribute @Validated EventCreateEditDto event,
@@ -65,9 +64,8 @@ public class EventController {
         return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
-    //  Edit & update event
     @GetMapping("/{id}/edit")
-    public String edit(
+    public String editEvent(
             Model model,
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("event-type") String eventType,
@@ -90,7 +88,7 @@ public class EventController {
     }
 
     @PostMapping("/{id}/edit")
-    public String update(
+    public String updateEvent(
             @PathVariable(value="scheduleId") String scheduleId,
             @PathVariable(value="event-type") String eventType,
             @PathVariable(value="id") Long id,
@@ -112,9 +110,8 @@ public class EventController {
         return "redirect:/schedules/" + scheduleId + "/" + eventType + "-events";
     }
 
-    //  Delete event
     @PostMapping("/{id}")
-    public String delete(
+    public String deleteEvent(
             @PathVariable("scheduleId") String scheduleId,
             @PathVariable("event-type") String eventType,
             @PathVariable("id") Long id

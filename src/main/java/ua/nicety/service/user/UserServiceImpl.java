@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-
     @Transactional
     public void create(UserCreateEditDto userDto) {
         Optional.of(userDto)
@@ -52,33 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.getByEmail(email);
+        return userRepository.findByEmail(email).get();
     }
-
-    @Transactional
-    public boolean update(Long id, UserCreateEditDto userDto) {
-        return userRepository.findById(id)
-                .map(entity -> {
-                    User mappedEntity = copyToEntity(userDto);
-                    mappedEntity.setId(entity.getId());
-                    return mappedEntity;
-                })
-                .map(user -> {
-                    userRepository.saveAndFlush(user);
-                    return true;
-                }).orElse(false);
-    }
-
-    @Transactional
-    public boolean delete(Long id) {
-        return userRepository.findById(id)
-                .map(entity -> {
-                    userRepository.deleteById(id);
-                    return true;
-                })
-                .orElse(false);
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -151,7 +125,5 @@ public class UserServiceImpl implements UserService {
                 .ifPresent(mappedEntity::setPassword);
         return mappedEntity;
     }
-
-
 }
 

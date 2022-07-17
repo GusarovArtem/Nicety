@@ -1,11 +1,9 @@
 package ua.nicety.http.dto.read;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Builder;
+import lombok.Value;
 import ua.nicety.database.entity.Day;
-import ua.nicety.http.validation.annotation.ScheduleValidate;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAccessor;

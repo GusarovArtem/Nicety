@@ -17,18 +17,18 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CommonScheduleService implements ScheduleService {
+public class AllSchedulesService implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    public Optional<ScheduleReadDto> findById(String id) {
+    public Optional<ScheduleReadDto> getById(String id) {
         return scheduleRepository.findById(id).map(schedule -> modelMapper.map(schedule, ScheduleReadDto.class));
     }
 
     @Override
-    public List<ScheduleReadDto> findAllByAuthor(User user) {
+    public List<ScheduleReadDto> getAllByAuthor(User user) {
         return scheduleRepository.findAllByAuthor(user)
                 .stream().map(schedule -> modelMapper.map(schedule, ScheduleReadDto.class))
                 .collect(Collectors.toList());

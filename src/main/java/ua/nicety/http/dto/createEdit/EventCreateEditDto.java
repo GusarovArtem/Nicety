@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ua.nicety.database.entity.Day;
-import ua.nicety.http.validation.annotation.ScheduleValidate;
+import ua.nicety.http.validation.annotation.ScheduleExistValidate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,6 +40,6 @@ public class EventCreateEditDto {
 
     private boolean notify;
 
-    @ScheduleValidate
+    @ScheduleExistValidate
     String scheduleId;
 }
